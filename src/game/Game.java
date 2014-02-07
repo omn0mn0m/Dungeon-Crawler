@@ -1,19 +1,25 @@
 package game;
 
-public class Engine {
+import item.ItemList;
+import entity.Hero;
+import entity.Hostile;
 
-    private static Hero player = new Hero();
-    private static Hostile mob = new Hostile();
-    
-    private static int numberOfRoomsPassed;
+public class Game {
 
-    public Engine() {
+    private Hero hero = new Hero();
+    private Hostile hostile = new Hostile();
+    private ItemList itemList = new ItemList();
+
+    private int numberOfRoomsPassed;
+
+    public Game() {
+    	
     }
 
     public void run() {
-        player.selectClass();
+        hero.selectClass();
         while (true) {
-            String command = player.getInput();
+            String command = hero.getInput();
             switch (command) {
                 case "go to next room":
                     this.checkForWin();
@@ -23,10 +29,10 @@ public class Engine {
                 	System.out.println("There is nothing of interest...");
                 	break;
                 case "attack":
-                    player.attack(mob);
+                    hero.attack(hostile);
                     break;
                 case "check health":
-                    System.out.println(player.getStat("health"));
+                    System.out.println(hero.getStat("health"));
                     break;
                 case "quit":
                     this.quit();
@@ -35,10 +41,16 @@ public class Engine {
                     this.restart();
                     break;
                 case "reroll character":
-                    player.rerollCharacter();
+                    hero.rerollCharacter();
                     break;
-                case "open inventory":
-                	player.openInventory();
+                case "check inventory":
+                	hero.checkInventory();
+                	break;
+                case "remove item":
+                	hero.removeItem(itemList);
+                	break;
+                case "add item":
+                	hero.addItem(itemList);
                 	break;
                 default:
                     System.out.println("That is not a valid command");
@@ -57,7 +69,7 @@ public class Engine {
     
     public void quit() {
     	System.out.println("Are you sure you want to quit? ");
-        if(player.getInput().equalsIgnoreCase("yes")) {
+        if(hero.getInput().equalsIgnoreCase("yes")) {
             System.exit(0);
         } else {
         	System.out.println("Resuming game then...");
@@ -66,16 +78,17 @@ public class Engine {
     
     public void restart() {
     	System.out.println("Are you sure you want to restart?");
-        if(player.getInput().equalsIgnoreCase("Yes")) {
+        if(hero.getInput().equalsIgnoreCase("Yes")) {
             numberOfRoomsPassed = 0;
-            mob.setName("DEAD");
+            hostile.setName("DEAD");
             this.run();
         }
     }
     
     public void goToNextRoom() {
-    	if (mob.getName().equals("DEAD")) {
-            mob.generateMob();
+    	if (hostile.getName().equals("DEAD")) {
+            hostile.generateMob();
+            System.out.println(hero.getName() + " walks into the next room, and finds a hostile " + hostile.getName());
             numberOfRoomsPassed = numberOfRoomsPassed + 1;
         } else {
             System.out.println("You can't walk out of a fight!");

@@ -1,16 +1,14 @@
-package game;
+package entity;
 
 import java.util.Random;
+import util.NamReader;
 
 public abstract class Entity {
 	
-	protected String name;
-	protected String description;
-	
-    protected int attack;
-    protected int defense;
-    protected int health;
+	protected String name, description;
+    protected int attack, defense, health;
     
+    protected NamReader namReader = new NamReader();
     protected Random random = new Random();
     
     public Entity() {
