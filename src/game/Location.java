@@ -1,5 +1,6 @@
 package game;
 
+<<<<<<< HEAD
 import java.util.Random;
 
 import item.Inventory;
@@ -105,4 +106,11 @@ public class Location {
     		}
     	}
     }
+=======
+public class Location {
+
+	public Location() {
+		
+	}
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 }

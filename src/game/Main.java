@@ -8,6 +8,7 @@ package game;
 public class Main {
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         Game engine = new Game();	// What runs for the game to work
         
         engine.heroClassSelect();	// Selection for the character class
@@ -17,5 +18,9 @@ public class Main {
         	engine.runInputCommand();	// Gets the player input and interprets it
         	engine.runGame();	// Runs non-player controlled elements such as hostile attacks
         }
+=======
+        Game engine = new Game();
+        engine.run();
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     }
 }

@@ -1,5 +1,6 @@
 package item;
 
+<<<<<<< HEAD
 import game.Game;
 
 /**
@@ -16,10 +17,18 @@ public class Inventory {
 	 * Constructor for an inventory of a specified size.
 	 * @param size
 	 */
+=======
+
+public class Inventory {
+	
+	private Item[] inventory;
+	
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 	public Inventory(int size) {
 		inventory = new Item[size];
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Prints out the inventory, with the option to show or not show empty slots.
 	 * @param showEmpty
@@ -56,14 +65,33 @@ public class Inventory {
 	 * @param slot
 	 * @param item
 	 */
+=======
+	public void checkInventory() {
+    	for (int i = 0; i < inventory.length; i++) {
+    		if (!this.slotEmpty(i)) {
+    			System.out.println(i + ". " + inventory[i].getName());
+    		} else {
+    			System.out.println(i + ". Empty Slot");
+    		}
+    	}
+    }
+	
+	public String checkSlot(int slot) {
+		return inventory[slot].getName();
+	}
+    
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     public void add(int slot, Item item) {
     	inventory[slot] = item;
     }
     
+<<<<<<< HEAD
     /**
      * Adds an item to the first available inventory slot.
      * @param item
      */
+=======
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     public void addItem(Item item) {
     	for (int i = 0; i < inventory.length; i++) {
     		if (this.slotEmpty(i)) {
@@ -73,14 +101,18 @@ public class Inventory {
     	}
     }
     
+<<<<<<< HEAD
     /**
      * Clears an inventory slot of whatever is present.
      * @param slot
      */
+=======
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     public void removeSlot(int slot) {
     	inventory[slot] = null;
     }
     
+<<<<<<< HEAD
     /**
      * Searches inventory for an item and removes it if found.
      * @param item
@@ -97,12 +129,26 @@ public class Inventory {
     /**
      * Clears entire inventory.
      */
+=======
+    public void removeItem(Item item) {
+    	for (int i = 0; i < inventory.length; i++) {
+    		if (!this.slotEmpty(i)) {
+    			if (inventory[i] == item) {
+    				removeSlot(i);
+    				break;
+    			}
+    		}
+    	}
+    }
+    
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     public void clear() {
     	for (int i = 0; i < inventory.length; i++) {
     		this.removeSlot(i);
     	}
     }
     
+<<<<<<< HEAD
     /**
      * Returns if a specified slot is empty.
      * @param slot
@@ -134,5 +180,9 @@ public class Inventory {
      */
     public int getSize() {
     	return inventory.length;
+=======
+    public boolean slotEmpty(int slot) {
+    	return (inventory[slot] == null);
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
     }
 }

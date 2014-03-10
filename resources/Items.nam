@@ -2,7 +2,11 @@ Total:
 3
 
 0-Key:
+<<<<<<< HEAD
 sword
+=======
+Sword
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 0-Name:
 Sword
 0-Type:
@@ -15,7 +19,11 @@ Weapon
 0
 
 1-Key:
+<<<<<<< HEAD
 key
+=======
+Key
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 1-Name:
 Key
 1-Type:
@@ -28,7 +36,11 @@ Item
 0
 
 2-Key:
+<<<<<<< HEAD
 helmet
+=======
+Helmet
+>>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 2-Name:
 Helmet
 2-Type:
