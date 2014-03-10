@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 Total:
 4
 
 0-Key:
 fairy
-=======
->>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 0-Name:
 Fairy
 0-Health:
@@ -15,11 +12,8 @@ Fairy
 0-Defense:
 0
 
-<<<<<<< HEAD
 1-Key:
 goblin
-=======
->>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 1-Name:
 Goblin
 1-Health:
@@ -29,11 +23,8 @@ Goblin
 1-Defense:
 5
 
-<<<<<<< HEAD
 2-Key:
 vampire
-=======
->>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 2-Name:
 Vampire
 2-Health:
@@ -43,11 +34,8 @@ Vampire
 2-Defense:
 10
 
-<<<<<<< HEAD
 3-Key:
 bandit
-=======
->>>>>>> 6b665932e073efc86b8311c776e2e473258f624b
 3-Name:
 Bandit
 3-Health:
