@@ -17,7 +17,7 @@ public class AttackList {
 	private Attack[] values;	// List of attacks
 	private Map<String, Attack> attacksMap;	// Map of keys and which attack they correspond to
 	
-	private String fileName = "resources/Attacks.nam";	// Name of the file for the list of attacks
+	private String fileName = Game.ROOT_PATH + "Attacks.nam";	// Name of the file for the list of attacks
 	
 	private int totalAttacks = 0;	// Total attacks in the game
 	

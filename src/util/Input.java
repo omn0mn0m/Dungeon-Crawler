@@ -72,4 +72,15 @@ public class Input {
 	public int getSplitLength() {
 		return splitInput.length;
 	}
+	
+	public boolean isSplitWordTarget(int word, String target) {
+		String comparedString = "";
+		
+		if (splitInput.length > word) {
+
+			comparedString = getInputWord(word);
+		}
+		
+		return comparedString.equals(target);
+	}
 }

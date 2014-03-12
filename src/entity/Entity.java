@@ -156,7 +156,6 @@ public abstract class Entity {
     	if (health <= 0) {
             alive = false;
         }
-    	System.out.println(health);
     }
     
     /**

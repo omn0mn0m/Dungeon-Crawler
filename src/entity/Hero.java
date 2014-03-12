@@ -28,6 +28,7 @@ public class Hero extends Entity {
     private AttackList attackList = new AttackList();	// List of attacks the player can do
     
     private String playerClass;		// Class of the player
+	private String classFilePath = Game.ROOT_PATH + "Player Classes.nam";
 
     /**
      * Constructor
@@ -46,7 +47,7 @@ public class Hero extends Entity {
         playerClass = input.splitAndGetInput(0);
         Game.print("Okay, so you are a " + playerClass);
         
-        Game.namReader.loadFile("resources/Player Classes.nam");
+        Game.namReader.loadFile(classFilePath);
     	
         Game.namReader.findData(String.valueOf(playerClass + "-Health"));
     	health = Game.namReader.getIntData();

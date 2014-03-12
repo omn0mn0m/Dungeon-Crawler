@@ -15,6 +15,7 @@ public class Game {
     private final int ROOMS_TO_WIN = 10;
 	
     public static final NamReader namReader = new NamReader();
+	public static final String ROOT_PATH = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
 	public static final HostileList hostileList = new HostileList();
     public static final ItemList itemList = new ItemList();
 	private Input input = new Input();
@@ -26,32 +27,38 @@ public class Game {
     	locations[currentRoom] = new Location(0, random.nextInt(3));
 		locations[currentRoom].enterLocation(hero);
     }
-    
+	
     public void runInputCommand() {
         switch (input.splitAndGetInput(0)) {
             case "go":
-            	if (input.getInputWord(1).equals("to")) {
-            		if (input.getInputWord(2).equals("next")) {
-            			if (input.getInputWord(3).equals("room")) {
+            	if (input.isSplitWordTarget(1, "to")) {
+            		if (input.isSplitWordTarget(2, "next")) {
+            			if (input.isSplitWordTarget(3, "room")) {
             				this.checkForWin();
             				this.goToNextRoom();
             			}
-            		} else if (input.getInputWord(2).equals("previous")) {
-            			if (input.getInputWord(3).equals("room")) {
+            		} else if (input.isSplitWordTarget(2, "previous")) {
+            			if (input.isSplitWordTarget(3, "room")) {
             				this.goToPreviousRoom();
             			}
             		}
             	}
                 break;
             case "look":
-            	if (input.getInputWord(1).equals("around")) {
+            	if (input.isSplitWordTarget(1, "around")) {
             		if (locations[currentRoom] != null) {
             			locations[currentRoom].printItems();
             			locations[currentRoom].printHostiles();
             		} else {
             			Game.print("There is nothing to see...");
             		}
-            	}
+            	} else if (input.isSplitWordTarget(1, "at")) {
+					for (int i = 0; i < locations[currentRoom].hostiles.length; i++) {
+						if (locations[currentRoom].hostiles[i] == hostileList.getHostile(input.getInputWord(2))) {
+							locations[currentRoom].hostiles[i].printStats();
+						}
+					}
+				}
             	break;
             case "attack":
             	if (input.getSplitLength() >= 2) {

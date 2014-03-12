@@ -17,7 +17,7 @@ public class ItemList {
     private Item[] values;	// List of items
     private Map<String, Item> itemsMap;	// Map of keys and which item they correspond to
     
-    private String fileName = "resources/Items.nam";	// Name of the file for the list of items
+    private String fileName = Game.ROOT_PATH + "Items.nam";	// Name of the file for the list of items
     
     private int totalItems = 0;		// Total items in the game
     
