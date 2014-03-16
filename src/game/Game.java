@@ -138,16 +138,18 @@ public class Game {
         if(input.getSimpleInput().equalsIgnoreCase("Yes")) {
             numberOfRoomsPassed = 0;
             for (int i = 0; i < ROOMS_TO_WIN; i++) {
-            	if (locations[i] != null) {
-            		locations[i].hostiles[0] = null;
-            	}
+				if (locations[i] != null) {
+					locations[i] = null;
+				}
             }
+			currentRoom = 0;
+			locations[currentRoom].enterLocation(hero);
             this.heroClassSelect();
         }
     }
     
     public void goToNextRoom() {
-    	if (locations[currentRoom].hostiles[0] == null) {
+    	if (!locations[currentRoom].hasHostiles()) {
     		currentRoom += 1;
     		if (locations[currentRoom] == null) {
     			locations[currentRoom] = new Location(1, random.nextInt(3));

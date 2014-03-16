@@ -105,4 +105,29 @@ public class Location {
     		}
     	}
     }
+	
+	public boolean hasHostiles() {
+		boolean hasHostiles = false;
+		
+		for (int i = 0; i < hostiles.length; i++) {
+			if (hostiles[i] != null) {
+				hasHostiles = true;
+				break;
+			}
+		}
+		
+		return hasHostiles;
+	}
+	
+	public void killAllHostiles() {
+		for (int i = 0; i < hostiles.length; i++) {
+			hostiles[i] = null;
+		}
+	}
+	
+	public void killAllItems() {
+		for (int i = 0; i < locationItems.getSize(); i++) {
+			locationItems.removeSlot(i);
+		}
+	}
 }
