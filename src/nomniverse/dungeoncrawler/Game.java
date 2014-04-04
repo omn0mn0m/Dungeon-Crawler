@@ -10,12 +10,14 @@ import nomniverse.util.NamReader;
 
 public class Game {
 	
-	private int currentRoom = 0;
+	private int roomsCleared = 0;
+	private int currentRoomX = 0;
+	private int currentRoomY = 0;
     private final int ROOMS_TO_WIN = 10;
 	
     public static final NamReader namReader = new NamReader();
-//	public static final String ROOT_PATH = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
-	public static final String ROOT_PATH = "resources/";
+	public static final String ROOT_PATH = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
+//	public static final String ROOT_PATH = "resources/";
 	
 	public static final HostileList hostileList = new HostileList();
     public static final ItemList itemList = new ItemList();
@@ -25,50 +27,55 @@ public class Game {
 	
     private Hero hero = new Hero();
     private Random random = new Random();
-    private Location[] locations = new Location[ROOMS_TO_WIN];
+    private Location[][] locations = new Location[ROOMS_TO_WIN][ROOMS_TO_WIN];
     
     public Game() {
     	paused = false;
-    	locations[currentRoom] = new Location(0, random.nextInt(itemList.getTotalItems()));
-		locations[currentRoom].enterLocation(hero);
+    	locations[currentRoomX][currentRoomY] = new Location(0, random.nextInt(itemList.getTotalItems()));
+		locations[currentRoomX][currentRoomY].enterLocation(hero);
     }
 	
     public void runInputCommand() {
     	if (!paused) {
     		switch (input.splitAndGetInput(0)) {
 	            case "go":
-	            	if (input.isSplitWordTarget(1, "to")) {
-	            		if (input.isSplitWordTarget(2, "next")) {
-	            			if (input.isSplitWordTarget(3, "room")) {
-	            				this.checkForWin();
-	            				this.goToNextRoom();
-	            			}
-	            		} else if (input.isSplitWordTarget(2, "previous")) {
-	            			if (input.isSplitWordTarget(3, "room")) {
-	            				this.goToPreviousRoom();
-	            			}
-	            		}
+	            	switch (input.getInputWord(1)) {
+	            		case "north":
+							moveTo(-1, 0);
+							break;
+						case "east":
+							moveTo(0, 1);
+							break;
+						case "south":
+							moveTo(1, 0);
+							break;
+						case "west":
+							moveTo(0, -1);
+							break;
+						default:
+							print("You can't go that way...");
+							break;
 	            	}
 	                break;
 	            case "look":
 	            	if (input.isSplitWordTarget(1, "around")) {
-	            		if (locations[currentRoom] != null) {
-	            			locations[currentRoom].printItems();
-	            			locations[currentRoom].printHostiles();
+	            		if (locations[currentRoomX][currentRoomY] != null) {
+	            			locations[currentRoomX][currentRoomY].printItems();
+	            			locations[currentRoomX][currentRoomY].printHostiles();
 	            		} else {
 	            			Game.print("There is nothing to see...");
 	            		}
 	            	} else if (input.isSplitWordTarget(1, "at")) {
-						for (int i = 0; i < locations[currentRoom].hostiles.length; i++) {
-							if (locations[currentRoom].hostiles[i].isTarget(input.getInputWord(2))) {
-								locations[currentRoom].hostiles[i].printStats();
+						for (int i = 0; i < locations[currentRoomX][currentRoomY].hostiles.length; i++) {
+							if (locations[currentRoomX][currentRoomY].hostiles[i].isTarget(input.getInputWord(2))) {
+								locations[currentRoomX][currentRoomY].hostiles[i].printStats();
 							}
 						}
 					}
 	            	break;
 	            case "attack":
 	            	if (input.getSplitLength() >= 2) {
-	            		hero.attack(locations[currentRoom].getLocationHostile(input.getInputWord(1)));
+	            		hero.attack(locations[currentRoomX][currentRoomY].getLocationHostile(input.getInputWord(1)));
 	            	} else {
 	            		Game.print("You did not choose anything to attack...");
 	            	}
@@ -98,11 +105,11 @@ public class Game {
 	            			break;
 	            	}
 	            	break;
-	            case "remove":
-	            	hero.removeItem(locations[currentRoom].locationItems, input.getInputWord(1));
+	            case "drop":
+	            	hero.removeItem(locations[currentRoomX][currentRoomY].locationItems, input.getInputWord(1));
 	            	break;
-	            case "add":
-	            	hero.addItem(locations[currentRoom].locationItems, input.getInputWord(1));
+	            case "take":
+	            	hero.addItem(locations[currentRoomX][currentRoomY].locationItems, input.getInputWord(1));
 	            	break;
 	            case "pause":
 	            	pause();
@@ -140,10 +147,12 @@ public class Game {
     }
     
     public void runGame() {
-		if (locations[currentRoom].hostiles[0] != null) {
-			hero.takeDamage(locations[currentRoom].hostiles[0], 0);
-			locations[currentRoom].hostiles[0].checkIfAlive(hero);
-			locations[currentRoom].checkIfHostileDead();
+		for (int i = 0; i < locations[currentRoomX][currentRoomY].hostiles.length; i++) {
+			if (locations[currentRoomX][currentRoomY].hostiles[i] != null) {
+				hero.takeDamage(locations[currentRoomX][currentRoomY].hostiles[i], 0);
+				locations[currentRoomX][currentRoomY].hostiles[i].checkIfAlive(hero);
+				locations[currentRoomX][currentRoomY].checkIfHostileDead();
+			}
 		}
     	hero.checkIfAlive();
     }
@@ -153,7 +162,7 @@ public class Game {
     }
     
     public void checkForWin() {
-    	if (currentRoom == ROOMS_TO_WIN) {
+    	if (roomsCleared == ROOMS_TO_WIN) {
     		print("You walk through into the next room, but there is no more dungeon. You have reached the end. Congradulations!");
             System.exit(0);
     	}
@@ -172,13 +181,16 @@ public class Game {
     	print("Are you sure you want to restart?");
         if(input.getSimpleInput().equalsIgnoreCase("Yes")) {
             for (int i = 0; i < ROOMS_TO_WIN; i++) {
-				if (locations[i] != null) {
-					locations[i] = null;
+				for (int c = 0; c < ROOMS_TO_WIN; i++) {
+					if (locations[i][c] != null) {
+						locations[i][c] = null;
+					}
 				}
             }
-			currentRoom = 0;
-			locations[currentRoom] = new Location(0, random.nextInt(itemList.getTotalItems()));
-			locations[currentRoom].enterLocation(hero);
+			currentRoomX = 0;
+			currentRoomY = 0;
+			locations[currentRoomX][currentRoomY] = new Location(0, random.nextInt(itemList.getTotalItems()));
+			locations[currentRoomX][currentRoomY].enterLocation(hero);
             this.heroClassSelect();
         }
     }
@@ -196,27 +208,35 @@ public class Game {
     public boolean isPaused() {
     	return paused;
     }
-    
-    public void goToNextRoom() {
-    	if (!locations[currentRoom].hasHostiles()) {
-    		currentRoom += 1;
-    		if (locations[currentRoom] == null) {
-    			locations[currentRoom] = new Location(1, random.nextInt(itemList.getTotalItems()));
-    		}
-    		locations[currentRoom].enterLocation(hero);
-        } else {
-        	print("You try to run, but are stopped!");
-        }
-    }
-    
-    public void goToPreviousRoom() {
-		if (currentRoom != 0) {
-			currentRoom -= 1;
-			locations[currentRoom].enterLocation(hero);
+	
+	public void moveTo(int x, int y) {
+		boolean moved = false;
+		checkForWin();
+		
+		if (!locations[currentRoomX][currentRoomY].hasHostiles()) {
+			if (currentRoomX + x > 0 && currentRoomX + x <= ROOMS_TO_WIN) {
+				currentRoomX += x;
+				moved = true;
+			}
+		
+			if (currentRoomY + y > 0 && currentRoomY + y <= ROOMS_TO_WIN) {
+				currentRoomY += y;
+				moved = true;
+			}
+		
+			if (moved) {
+				if (locations[currentRoomX][currentRoomY] == null) {
+					roomsCleared += 1;
+					locations[currentRoomX][currentRoomY] = new Location(random.nextInt(3), random.nextInt(itemList.getTotalItems()));
+				}
+				locations[currentRoomX][currentRoomY].enterLocation(hero);
+			} else {
+				print("You cannot move further in that direction...");
+			}
 		} else {
-			print("You can't go further back!");
+			print("You try to run, but are stopped!");
 		}
-    }
+	}
     
     public static void print(String string) {
     	System.out.println(string);

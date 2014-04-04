@@ -14,10 +14,8 @@ public class Main {
         
         // Runs for the duration of the game
         while (true) {
-        	if (game.isPaused()) {
-        		game.runInputCommand();	// Gets the player input and interprets it
-        	} else {
-        		game.runInputCommand();
+			game.runInputCommand(); // Gets the player input and interprets it
+        	if (!game.isPaused()) {
         		game.runGame();	// Runs non-player controlled elements such as hostile attacks
         	}
         }
