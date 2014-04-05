@@ -17,7 +17,7 @@ public class HostileList {
     private Hostile[] values;	// List of hostiles
     private Map<String, Hostile> hostileMap;	// Map of keys and which hostile they correspond to
     
-    private String fileName = Game.ROOT_PATH + "Hostile.nam";	// Name of the file for the list of hostiles
+    private String fileName = Game.rootPath + "Hostile.nam";	// Name of the file for the list of hostiles
     
     private int totalHostiles = 0;	// Total attacks in the game
     

@@ -16,20 +16,29 @@ public class Game {
     private final int ROOMS_TO_WIN = 10;
 	
     public static final NamReader namReader = new NamReader();
-	public static final String ROOT_PATH = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
-//	public static final String ROOT_PATH = "resources/";
+	public static String rootPath;
 	
-	public static final HostileList hostileList = new HostileList();
-    public static final ItemList itemList = new ItemList();
+	public static HostileList hostileList;
+    public static ItemList itemList;
     
 	private Input input = new Input();
 	private boolean paused;
 	
-    private Hero hero = new Hero();
+    private Hero hero;
     private Random random = new Random();
     private Location[][] locations = new Location[ROOMS_TO_WIN][ROOMS_TO_WIN];
     
     public Game() {
+    	if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+    		rootPath = "resources/";
+    	} else {
+    		rootPath = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
+    	}
+    	
+    	hostileList = new HostileList();
+    	itemList = new ItemList();
+    	hero = new Hero();
+    	
     	paused = false;
     	locations[currentRoomX][currentRoomY] = new Location(0, random.nextInt(itemList.getTotalItems()));
 		locations[currentRoomX][currentRoomY].enterLocation(hero);

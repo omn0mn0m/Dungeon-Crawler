@@ -28,7 +28,7 @@ public class Hero extends Entity {
     private AttackList attackList = new AttackList();	// List of attacks the player can do
     
     private String playerClass;		// Class of the player
-	private String classFilePath = Game.ROOT_PATH + "Player Classes.nam";
+	private String classFilePath = Game.rootPath + "Player Classes.nam";
 
     /**
      * Constructor
