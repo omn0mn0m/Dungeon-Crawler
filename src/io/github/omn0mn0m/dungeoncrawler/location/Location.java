@@ -1,7 +1,7 @@
 package io.github.omn0mn0m.dungeoncrawler.location;
 
 import io.github.omn0mn0m.dungeoncrawler.Game;
-import io.github.omn0mn0m.dungeoncrawler.entity.Hero;
+import io.github.omn0mn0m.dungeoncrawler.entity.Entity;
 import io.github.omn0mn0m.dungeoncrawler.entity.Hostile;
 import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
@@ -22,7 +22,7 @@ public class Location {
      * @param itemNumber
      */
     public Location(int hostileNumber, int itemNumber) {
-    	if (hostileNumber == 0) {
+    	if (hostileNumber <= 0) {
     		hasHostiles = false;
     		hostileNumber = 1;
     	}
@@ -33,15 +33,15 @@ public class Location {
     /**
      * Runs when the player enters a location. It generates things if it is being
      * entered for the first time in the game or has not been generated.
-     * @param hero
+     * @param entity
      */
-    public void enterLocation(Hero hero) {
+    public void enterLocation(Entity entity) {
     	if (!generated) {
     		this.generateHostile();
     		this.generateItem();
     		generated = true;
     	} else {}
-		Game.print(hero.getName() + " walks into the room.");
+		Game.print(entity.getName() + " walks into the room.");
     }
     
     /**
@@ -69,18 +69,16 @@ public class Location {
     /**
      * Checks if a hostile in the location is dead, then deletes if it is.
      */
-    public void checkIfHostileDead() {
-    	for (int i = 0; i < hostiles.length; i++) {
-    		if (hostiles[i] != null && hostiles[i].isAlive() == false) {
-    			hostiles[i] = null;
-    		}
-    	}
+    public void checkIfHostileDead(int index) {
+		if (hostiles[index] != null && hostiles[index].isAlive() == false) {
+			hostiles[index] = null;
+		}
     }
     
     public Hostile getLocationHostile(String targetHostile) {
     	Hostile hostile = null;
     	for (int i = 0; i < hostiles.length; i++) {
-    		if (hostiles[i].isTarget(targetHostile)) {
+    		if (hostiles[i] != null && hostiles[i].isTarget(targetHostile)) {
     			hostile = hostiles[i];
     			break;
     		}

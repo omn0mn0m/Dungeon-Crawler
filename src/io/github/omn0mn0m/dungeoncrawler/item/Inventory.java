@@ -120,7 +120,7 @@ public class Inventory {
     public boolean hasItem(Item item) {
     	boolean hasItem = false;
     	for (int i = 0; i < inventory.length; i++) {
-    		if (checkSlot(i).isTarget(item.getName())) {
+    		if (!slotEmpty(i) && checkSlot(i).isTarget(item.getName())) {
     			hasItem = true;
     			break;
     		}
