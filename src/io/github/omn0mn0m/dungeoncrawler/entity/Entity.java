@@ -13,6 +13,7 @@ public abstract class Entity {
 	
 	protected String name, description;	// String info for an entity
     protected int attack, defense, health;	// Stats for an entity
+    protected int xp; // Experience points for an entity
     protected boolean alive = true;		// Whether an entity is alive or not
     
     protected Random random = new Random();	// Used for random numbers
