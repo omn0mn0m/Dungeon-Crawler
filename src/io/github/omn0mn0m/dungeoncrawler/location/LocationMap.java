@@ -39,14 +39,13 @@ public class LocationMap {
 	
 	public void moveTo(int x, int y, Entity entity) {
 		boolean moved = false;
-		System.out.println(currentRoomX + "|" + currentRoomY);
 		if (!getCurrentLocation().hasHostiles()) {
-			if (currentRoomX + x >= 0 && currentRoomX + x <= xLength) {
+			if (currentRoomX + x >= 0 && currentRoomX + x <= xLength && x != 0) {
 				currentRoomX += x;
 				moved = true;
 			}
 		
-			if (currentRoomY + y >= 0 && currentRoomY + y <= yLength) {
+			if (currentRoomY + y >= 0 && currentRoomY + y <= yLength && y != 0) {
 				currentRoomY += y;
 				moved = true;
 			}
@@ -63,7 +62,6 @@ public class LocationMap {
 		} else {
 			Game.print("You try to run, but are stopped!");
 		}
-		System.out.println(currentRoomX + "|" + currentRoomY);
 	}
 	
 	public void resetMap() {
