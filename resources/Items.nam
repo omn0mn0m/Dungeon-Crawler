@@ -6,7 +6,7 @@ sword
 0-Name:
 Sword
 0-Type:
-Weapon
+weapon
 0-AttackBuff:
 10
 0-DefenseBuff:
@@ -19,7 +19,7 @@ key
 1-Name:
 Key
 1-Type:
-Item
+item
 1-AttackBuff:
 0
 1-DefenseBuff:
@@ -32,7 +32,7 @@ helmet
 2-Name:
 Helmet
 2-Type:
-Armour
+armour
 2-AttackBuff:
 0
 2-DefenseBuff:

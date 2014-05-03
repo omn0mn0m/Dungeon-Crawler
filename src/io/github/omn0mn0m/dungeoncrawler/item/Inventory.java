@@ -67,7 +67,7 @@ public class Inventory {
     public void addItem(Item item) {
     	for (int i = 0; i < inventory.length; i++) {
     		if (this.slotEmpty(i)) {
-    			add(i, item);
+    			add(i, new Item(item));
     			break;
     		}
     	}

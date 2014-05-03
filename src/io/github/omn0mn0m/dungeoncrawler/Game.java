@@ -103,6 +103,9 @@ public class Game {
 	            		case "inventory":
 	            			hero.checkInventory();
 	            			break;
+	            		case "equipped":
+	            			hero.checkEquipped();
+	            			break;
 	            		case "health":
 	            			print("Health: " + hero.getStat("health"));
 	            			break;
@@ -117,6 +120,11 @@ public class Game {
 	            case "take":
 	            	hero.addItem(locationMap.getCurrentLocationItems(), input.getInputWord(1));
 	            	break;
+	            case "equip":
+	            	hero.equipItem(input.getInputWord(1));
+	            	break;
+	            case "unequip":
+	            	hero.unequipItem(input.getInputWord(1));
 	            case "pause":
 	            	pause();
 	            	break;

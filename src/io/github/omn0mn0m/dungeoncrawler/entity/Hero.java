@@ -24,7 +24,10 @@ public class Hero extends Entity {
 	
 	private Inventory inventory = new Inventory(INVENTORY_SIZE);	// Player's inventory
 	private Inventory equipped = new Inventory(EQUIPPED_SIZE);		// Player's equip inventory
-    private Input input = new Input();	// Player's input
+	private final int WEAPON_SLOT = 0;
+	private final int ARMOUR_SLOT = 1;
+    
+	private Input input = new Input();	// Player's input
     private AttackList attackList = new AttackList();	// List of attacks the player can do
     
     private String playerClass;		// Class of the player
@@ -92,9 +95,15 @@ public class Hero extends Entity {
         	int attackBuff = 0;
             Game.print("Which attack should you use?");
             String attackType = input.getSimpleInput();
+            
             if (attackList.getAttack(attackType) != null) {
             	attackBuff = attackList.getAttack(attackType).getAttackBuff();
             }
+            
+            if (equipped.checkSlot(WEAPON_SLOT) != null) {
+            	attackBuff += equipped.checkSlot(WEAPON_SLOT).getStatBuff("attack");
+            }
+            
         	Game.print("You " + attackType + " the " + hostile.getName() + ".");
             hostile.takeDamage(this, attackBuff);
         }
@@ -173,5 +182,55 @@ public class Hero extends Entity {
      */
     public void checkEquipped() {
     	equipped.checkInventory(true);
+    }
+    
+    /**
+     * Equips an item if the item is equippable and the slot is empty
+     * @param item
+     */
+    public void equipItem(String item) {
+    	Item targetItem = Game.itemList.getItem(item);
+    	int targetSlot = -1;
+    	
+    	if (targetItem.getType().equals("weapon")) {
+    		targetSlot = WEAPON_SLOT;
+    	} else if (targetItem.getType().equals("armour")) {
+    		targetSlot = ARMOUR_SLOT;
+    	} else {
+    		Game.print("You cannot equip that!");
+    	}
+    	
+    	if (targetSlot != -1) {
+	    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem)) {
+				equipped.add(targetSlot, targetItem);
+				inventory.removeItem(targetItem);
+				Game.print(name + "has equipped a " + targetItem.getName() + ".");
+			} else {
+				Game.print("Something is already in that slot!");
+			}
+    	}
+    }
+    
+    public void unequipItem(String item) {
+    	Item targetItem = Game.itemList.getItem(item);
+    	int targetSlot = -1;
+    	
+    	if (targetItem.getType().equals("weapon")) {
+    		targetSlot = WEAPON_SLOT;
+    	} else if (targetItem.getType().equals("armour")) {
+    		targetSlot = ARMOUR_SLOT;
+    	} else {
+    		Game.print("You cannot unequip that!");
+    	}
+    	
+    	if (targetSlot != -1) {
+	    	if (equipped.hasItem(targetItem)) {
+				equipped.removeItem(targetItem);
+				inventory.addItem(targetItem);
+				Game.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
+			} else {
+				Game.print("That slot is already empty!");
+			}
+    	}
     }
 }
