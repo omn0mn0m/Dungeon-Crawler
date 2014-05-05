@@ -1,0 +1,23 @@
+You hear a voice call down from the sky
+It booms, "I heard you asked for help.
+I'm going to tell you a list of commands.
+If you need help with a specific one say 'help' then the command you want to use
+The commands are as follows:
+go
+look
+attack
+quit
+restart
+reroll
+check
+drop
+take
+equip
+unequip
+pause
+unpause
+help
+
+There, I hope that helps. 
+Now will you please leave me alone?
+I'm very busy, you know."

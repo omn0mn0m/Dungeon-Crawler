@@ -7,7 +7,11 @@ import io.github.omn0mn0m.dungeoncrawler.location.LocationMap;
 import io.github.omn0mn0m.util.Input;
 import io.github.omn0mn0m.util.NamReader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Game {
 
@@ -131,6 +135,83 @@ public class Game {
 	            case "unpause":
 	            	unpause();
 	            	break;
+	            case "help":
+	            	File HELP_FILE = new File("resources/help_file.txt");
+	            	if(input.getSplitLength() == 1) {
+	            		try {
+	            			Scanner fileScanner = new Scanner(HELP_FILE);
+	            			while(fileScanner.hasNextLine()) {
+	            				String fileStr = fileScanner.useDelimiter("[\\r\\n]+").next();
+	            				Game.print(fileStr);
+	            			}
+	            		} catch (FileNotFoundException e) {
+	            		e.printStackTrace();
+	            		}
+	            	} else {
+	            		switch(input.getInputWord(1)) {
+	            			case "go":
+	            				Game.print("Syntax: go <direction>");
+	            				Game.print("You may go north, south, east, or west.");
+	            				Game.print("You are not imaginative enough to even think of going other directions.");
+	            				break;
+	            			case "look":
+	            				Game.print("Syntax: look <arguments> <object>");
+	            				Game.print("You can look around anywhere, but you can only look at objects.");
+	            				break;
+	            			case "attack":
+	            				Game.print("Syntax: attack <enemy>");
+	            				Game.print("Just be sure you're attacking what is actually there!");
+	            				break;
+	            			case "quit":
+	            				Game.print("Syntax: quit");
+	            				Game.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
+	            				break;
+	            			case "restart":
+	            				Game.print("Syntax: restart");
+	            				Game.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
+	            				break;
+	            			case "reroll":
+	            				Game.print("Syntax: reroll");
+	            				Game.print("Resets your character's stats, so you can change them.");
+	            				break;
+	            			case "check":
+	            				Game.print("Syntax: check <vitals>");
+	            				Game.print("You can check your stats, inventory, health and equipment.");
+	            				Game.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
+	            				break;
+	            			case "drop":
+	            				Game.print("Syntax: drop <item>");
+	            				Game.print("Drops the item that you specify. Be careful what you do with basses.");
+	            				break;
+	            			case "take":
+	            				Game.print("Syntax: take <item>");
+	            				Game.print("Takes an item from the surroundings and places it in your inventory.");
+	            				break;
+	            			case "equip":
+	            				Game.print("Syntax: equip <item>");
+	            				Game.print("Equips the item you specify. Just be sure you actually have the item...");
+	            				break;
+	            			case "unequip":
+	            				Game.print("Syntax: unequip <item>");
+	            				Game.print("Removes the item from your equipment and places it in your inventory.");
+	            				break;
+	            			case "pause":
+	            				Game.print("Syntax: pause");
+	            				Game.print("Pauses the game, like stopping the world, only possible");
+	            				break;
+	            			case "unpause":
+	            				Game.print("Syntax: unpause");
+	            				Game.print("Unpauses the game, like unstopping the world but...");
+	            				Game.print("You know, now that I think about it, this is a really bad analogy");
+	            				break;
+	            			case "help":
+	            				Game.print("Syntax: help <command>");
+	            				Game.print("You ask for help, recieving a list of commands if you do not specify one.");
+	            				Game.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
+	            				break;
+	            		}
+	            	}
+	            	break;
 	            default:
 	                print("That is not a valid command");
 	                break;
@@ -151,6 +232,83 @@ public class Game {
 	            	break;
 	            case "unpause":
 	            	unpause();
+	            	break;
+	            case "help":
+	            	File HELP_FILE = new File("resources/help_file.txt");
+	            	if(input.getSplitLength() == 1) {
+	            		try {
+	            			Scanner fileScanner = new Scanner(HELP_FILE);
+	            			while(fileScanner.hasNextLine()) {
+	            				String fileStr = fileScanner.useDelimiter("[\\r\\n]+").next();
+	            				Game.print(fileStr);
+	            			}
+	            		} catch (FileNotFoundException e) {
+	            		e.printStackTrace();
+	            		}
+	            	} else {
+	            		switch(input.getInputWord(1)) {
+	            			case "go":
+	            				Game.print("Syntax: go <direction>");
+	            				Game.print("You may go north, south, east, or west.");
+	            				Game.print("You are not imaginative enough to even think of going other directions.");
+	            				break;
+	            			case "look":
+	            				Game.print("Syntax: look <arguments> <object>");
+	            				Game.print("You can look around anywhere, but you can only look at objects.");
+	            				break;
+	            			case "attack":
+	            				Game.print("Syntax: attack <enemy>");
+	            				Game.print("Just be sure you're attacking what is actually there!");
+	            				break;
+	            			case "quit":
+	            				Game.print("Syntax: quit");
+	            				Game.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
+	            				break;
+	            			case "restart":
+	            				Game.print("Syntax: restart");
+	            				Game.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
+	            				break;
+	            			case "reroll":
+	            				Game.print("Syntax: reroll");
+	            				Game.print("Resets your character's stats, so you can change them.");
+	            				break;
+	            			case "check":
+	            				Game.print("Syntax: check <vitals>");
+	            				Game.print("You can check your stats, inventory, health and equipment.");
+	            				Game.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
+	            				break;
+	            			case "drop":
+	            				Game.print("Syntax: drop <item>");
+	            				Game.print("Drops the item that you specify. Be careful what you do with basses.");
+	            				break;
+	            			case "take":
+	            				Game.print("Syntax: take <item>");
+	            				Game.print("Takes an item from the surroundings and places it in your inventory.");
+	            				break;
+	            			case "equip":
+	            				Game.print("Syntax: equip <item>");
+	            				Game.print("Equips the item you specify. Just be sure you actually have the item...");
+	            				break;
+	            			case "unequip":
+	            				Game.print("Syntax: unequip <item>");
+	            				Game.print("Removes the item from your equipment and places it in your inventory.");
+	            				break;
+	            			case "pause":
+	            				Game.print("Syntax: pause");
+	            				Game.print("Pauses the game, like stopping the world, only possible");
+	            				break;
+	            			case "unpause":
+	            				Game.print("Syntax: unpause");
+	            				Game.print("Unpauses the game, like unstopping the world but...");
+	            				Game.print("You know, now that I think about it, this is a really bad analogy");
+	            				break;
+	            			case "help":
+	            				Game.print("Syntax: help <command>");
+	            				Game.print("You ask for help, recieving a list of commands if you do not specify one.");
+	            				Game.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
+	            				break;
+	            		}
+	            	}
 	            	break;
 	            default:
 	                print("That is not a valid command");
