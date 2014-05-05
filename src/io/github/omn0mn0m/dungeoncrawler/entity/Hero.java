@@ -204,7 +204,7 @@ public class Hero extends Entity {
 	    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem)) {
 				equipped.add(targetSlot, targetItem);
 				inventory.removeItem(targetItem);
-				Game.print(name + "has equipped a " + targetItem.getName() + ".");
+				Game.print(name + " has equipped a " + targetItem.getName() + ".");
 			} else {
 				Game.print("Something is already in that slot!");
 			}
