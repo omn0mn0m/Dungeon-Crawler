@@ -97,11 +97,11 @@ public class Hero extends Entity {
             String attackType = input.getSimpleInput();
             
             if (attackList.getAttack(attackType) != null) {
-            	attackBuff = attackList.getAttack(attackType).getAttackBuff();
-            }
-            
-            if (equipped.checkSlot(WEAPON_SLOT) != null) {
-            	attackBuff += equipped.checkSlot(WEAPON_SLOT).getStatBuff("attack");
+            	if (equipped.checkSlot(WEAPON_SLOT) != null && attackList.getAttack(attackType).getAttackRequires().equalsIgnoreCase(equipped.checkSlot(WEAPON_SLOT).getName())) {
+            		attackBuff = attackList.getAttack(attackType).getAttackBuff();
+            	} else {
+            		Game.print("You attack, but a lack of items makes it not as effective...");
+            	}
             }
             
         	Game.print("You " + attackType + " the " + hostile.getName() + ".");
@@ -192,22 +192,30 @@ public class Hero extends Entity {
     	Item targetItem = Game.itemList.getItem(item);
     	int targetSlot = -1;
     	
-    	if (targetItem.getType().equals("weapon")) {
-    		targetSlot = WEAPON_SLOT;
-    	} else if (targetItem.getType().equals("armour")) {
-    		targetSlot = ARMOUR_SLOT;
-    	} else {
-    		Game.print("You cannot equip that!");
-    	}
-    	
-    	if (targetSlot != -1) {
-	    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem)) {
-				equipped.add(targetSlot, targetItem);
-				inventory.removeItem(targetItem);
-				Game.print(name + " has equipped a " + targetItem.getName() + ".");
-			} else {
-				Game.print("Something is already in that slot!");
-			}
+    	try {
+	    	if (targetItem.getType().equals("weapon")) {
+	    		targetSlot = WEAPON_SLOT;
+	    	} else if (targetItem.getType().equals("armour")) {
+	    		targetSlot = ARMOUR_SLOT;
+	    	}
+	    	
+	    	if (targetSlot != -1) {
+		    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem)) {
+					equipped.add(targetSlot, targetItem);
+					inventory.removeItem(targetItem);
+					
+					// Adjusts the stats
+					this.attack += targetItem.getStatBuff("attack");
+					this.defense += targetItem.getStatBuff("defense");
+					this.health += targetItem.getStatBuff("health");
+					
+					Game.print(name + " has equipped a " + targetItem.getName() + ".");
+				} else {
+					Game.print("You can't equip that!");
+				}
+	    	}
+    	} catch (NullPointerException e) {
+    		Game.print("That item doesn't exist!");
     	}
     }
     
@@ -215,22 +223,47 @@ public class Hero extends Entity {
     	Item targetItem = Game.itemList.getItem(item);
     	int targetSlot = -1;
     	
-    	if (targetItem.getType().equals("weapon")) {
-    		targetSlot = WEAPON_SLOT;
-    	} else if (targetItem.getType().equals("armour")) {
-    		targetSlot = ARMOUR_SLOT;
-    	} else {
-    		Game.print("You cannot unequip that!");
+    	try {
+	    	if (targetItem.getType().equals("weapon")) {
+	    		targetSlot = WEAPON_SLOT;
+	    	} else if (targetItem.getType().equals("armour")) {
+	    		targetSlot = ARMOUR_SLOT;
+	    	} else {
+	    		Game.print("You cannot unequip that!");
+	    	}
+	    	
+	    	if (targetSlot != -1) {
+		    	if (equipped.hasItem(targetItem)) {
+		    		// Adjusts the stats
+					this.attack -= targetItem.getStatBuff("attack");
+					this.defense -= targetItem.getStatBuff("defense");
+					this.health -= targetItem.getStatBuff("health");
+					
+					equipped.removeItem(targetItem);
+					inventory.addItem(targetItem);
+					Game.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
+				} else {
+					Game.print("That slot is already empty!");
+				}
+	    	}
+    	} catch (NullPointerException e) {
+    		Game.print("That item doesn't exist!");
     	}
+    }
+    
+    public void consumeItem(String item) {
+    	Item targetItem = Game.itemList.getItem(item);
     	
-    	if (targetSlot != -1) {
-	    	if (equipped.hasItem(targetItem)) {
-				equipped.removeItem(targetItem);
-				inventory.addItem(targetItem);
-				Game.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
-			} else {
-				Game.print("That slot is already empty!");
-			}
+    	if (inventory.hasItem(targetItem) && targetItem.getType().equals("consumable")) {
+    		// Adjusts the stats
+			this.attack += targetItem.getStatBuff("attack");
+			this.defense += targetItem.getStatBuff("defense");
+			this.health += targetItem.getStatBuff("health");
+    		
+    		inventory.removeItem(targetItem);
+    		Game.print("The " + item + " has been consumed.");
+    	} else {
+    		Game.print("That item can't be consumed!");
     	}
     }
 }

@@ -73,10 +73,13 @@ public class AttackList {
 			Game.namReader.findData(String.valueOf(i + "-Name"));
 	    	String name = Game.namReader.getStringData();
 	    	
+	    	Game.namReader.findData(String.valueOf(i + "-Requires"));
+	    	String requires = Game.namReader.getStringData();
+	    	
 	    	Game.namReader.findData(String.valueOf(i + "-AttackBuff"));
 	    	int attackBuff = Game.namReader.getIntData();
 	    	
-			values[i] = new Attack(name, attackBuff);
+			values[i] = new Attack(name, requires, attackBuff);
 		}
 		Game.namReader.unloadFile();
 	}

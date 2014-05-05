@@ -9,6 +9,7 @@ package io.github.omn0mn0m.dungeoncrawler.entity;
 public class Attack {
 	
 	private String attackName;	// Name of the attack
+	private String requires;
 	private int attackBuff;		// How much the attack adds to base attack stat
 	
 	/**
@@ -16,8 +17,9 @@ public class Attack {
 	 * @param attackName
 	 * @param attackBuff
 	 */
-	public Attack(String attackName, int attackBuff) {
+	public Attack(String attackName, String requires, int attackBuff) {
 		setAttackName(attackName);
+		setAttackRequires(requires);
 		setAttackBuff(attackBuff);
 	}
 	
@@ -26,7 +28,7 @@ public class Attack {
 	 * @param attack
 	 */
 	public Attack(Attack attack) {
-		this(attack.getAttackName(), attack.getAttackBuff());
+		this(attack.getAttackName(), attack.getAttackRequires(), attack.getAttackBuff());
 	}
 	
 	/**
@@ -52,6 +54,10 @@ public class Attack {
 	public String getAttackName() {
 		return attackName;
 	}
+	
+	public String getAttackRequires() {
+		return requires;
+	}
 
 	/**
 	 * Sets a new name to the attack that is not the default.
@@ -59,6 +65,10 @@ public class Attack {
 	 */
 	public void setAttackName(String attackName) {
 		this.attackName = attackName;
+	}
+	
+	public void setAttackRequires(String requires) {
+		this.requires = requires;
 	}
 	
 	public boolean isTarget(String target) {

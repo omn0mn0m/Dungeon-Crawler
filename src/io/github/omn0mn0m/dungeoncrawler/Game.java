@@ -138,6 +138,10 @@ public class Game {
 	            	break;
 	            case "unequip":
 	            	hero.unequipItem(input.getInputWord(1));
+	            	break;
+	            case "consume":
+	            	hero.consumeItem(input.getInputWord(1));
+	            	break;
 	            case "pause":
 	            	pause();
 	            	break;
@@ -286,6 +290,10 @@ public class Game {
     			case "unequip":
     				Game.print("Syntax: unequip <item>");
     				Game.print("Removes the item from your equipment and places it in your inventory.");
+    				break;
+    			case "consume":
+    				Game.print("Syntax: consume <item>");
+    				Game.print("Consumes an item from your inventory and removes it from your inventory.");
     				break;
     			case "pause":
     				Game.print("Syntax: pause");

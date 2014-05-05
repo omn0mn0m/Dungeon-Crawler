@@ -100,7 +100,7 @@ public class LocationMap {
 	
 	public void printTargetHostileStats(String target) {
 		for (int i = 0; i < getHostilesInCurrentLocation(); i++) {
-			if (getCurrentLocation.hostiles[i] != null && getCurrentLocation().hostiles[i].isTarget(target)) {
+			if (getCurrentLocation().hostiles[i] != null && getCurrentLocation().hostiles[i].isTarget(target)) {
 				getCurrentLocation().hostiles[i].printStats();
 			}
 		}

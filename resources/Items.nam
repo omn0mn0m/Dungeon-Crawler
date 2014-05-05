@@ -1,5 +1,5 @@
 Total:
-3
+4
 
 0-Key:
 sword
@@ -39,3 +39,16 @@ armour
 10
 2-HealthBuff:
 0
+
+3-Key:
+potion
+3-Name:
+Potion
+3-Type:
+consumable
+3-AttackBuff:
+0
+3-DefenseBuff:
+0
+3-HealthBuff:
+10
