@@ -9,6 +9,7 @@ import io.github.omn0mn0m.util.NamReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -48,139 +49,145 @@ public class Game {
 		}
     	
     	hostileList = new HostileList();
+    	Game.print("Hostiles list successfully loaded!");
     	itemList = new ItemList();
+    	Game.print("Items list successfully loaded!");
     	hero = new Hero();
+    	Game.print("Attacks list successfully loaded!");
+    	Game.print("Player successfully loaded!");
+    	Game.print("Swag out. \n");
     	
     	locationMap.createRoomAtPlayer(0, random.nextInt(itemList.getTotalItems()));
 		locationMap.enterCurrentMapLocation(hero);
     }
 	
     public void runInputCommand() {
-    	if (!paused) {
-    		switch (input.splitAndGetInput(0)) {
-	            case "go":
-	            	switch (input.getInputWord(1)) {
-	            		case "north":
-	            			checkForWin();
-							locationMap.moveTo(-1, 0, hero);
-							break;
-						case "east":
-							checkForWin();
-							locationMap.moveTo(0, 1, hero);
-							break;
-						case "south":
-							checkForWin();
-							locationMap.moveTo(1, 0, hero);
-							break;
-						case "west":
-							checkForWin();
-							locationMap.moveTo(0, -1, hero);
-							break;
-						default:
-							print("You can't go that way...");
-							break;
-	            	}
-	                break;
-	            case "look":
-	            	if (input.isSplitWordTarget(1, "around")) {
-	            		if (locationMap.getCurrentLocation() != null) {
-	            			locationMap.printAllCurrentLocationInformation();
-	            		} else {
-	            			Game.print("There is nothing to see...");
-	            		}
-	            	} else if (input.isSplitWordTarget(1, "at")) {
-						locationMap.printTargetHostileStats(input.getInputWord(2));
-					}
-	            	break;
-	            case "attack":
-	            	if (input.getSplitLength() >= 2) {
-	            		hero.attack(locationMap.getHostileAtCurrentLocation(input.getInputWord(1)));
-	            	} else {
-	            		Game.print("You did not choose anything to attack...");
-	            	}
-	                break;
-	            case "quit":
-	                this.quit();
-	                break;
-	            case "restart":
-	                this.restart();
-	                break;
-	            case "reroll":
-	                hero.rerollCharacter();
-	                break;
-	            case "check":
-	            	switch (input.getInputWord(1)) {
-	            		case "stats":
-	            			hero.printStats();
-	            			break;
-	            		case "inventory":
-	            			hero.checkInventory();
-	            			break;
-	            		case "equipped":
-	            			hero.checkEquipped();
-	            			break;
-	            		case "health":
-	            			print("Health: " + hero.getStat("health"));
-	            			break;
-	            		default:
-	            			print("That is not something valid to check...");
-	            			break;
-	            	}
-	            	break;
-	            case "drop":
-	            	hero.removeItem(locationMap.getCurrentLocationItems(), input.getInputWord(1));
-	            	break;
-	            case "take":
-	            	hero.addItem(locationMap.getCurrentLocationItems(), input.getInputWord(1));
-	            	break;
-	            case "equip":
-	            	hero.equipItem(input.getInputWord(1));
-	            	break;
-	            case "unequip":
-	            	hero.unequipItem(input.getInputWord(1));
-	            	break;
-	            case "consume":
-	            	hero.consumeItem(input.getInputWord(1));
-	            	break;
-	            case "pause":
-	            	pause();
-	            	break;
-	            case "unpause":
-	            	unpause();
-	            	break;
-	            case "help":
-	            	printHelp();
-	            	break;
-	            default:
-	                print("That is not a valid command");
-	                break;
-	        }
-    	} else {
-    		switch (input.splitAndGetInput(0)) {
-	            case "quit":
-	                this.quit();
-	                break;
-	            case "restart":
-	                this.restart();
-	                break;
-	            case "reroll":
-	                hero.rerollCharacter();
-	                break;
-	            case "pause":
-	            	pause();
-	            	break;
-	            case "unpause":
-	            	unpause();
-	            	break;
-	            case "help":
-	            	printHelp();
-	            	break;
-	            default:
-	                print("That is not a valid command");
-	                break;
-	        }
-    	}
-        
+    	try {
+	    	if (!paused) {
+	    		switch (input.splitAndGetInput(0)) {
+		            case "go":
+		            	switch (input.getInputWord(1)) {
+		            		case "north":
+		            			checkForWin();
+								locationMap.moveTo(-1, 0, hero);
+								break;
+							case "east":
+								checkForWin();
+								locationMap.moveTo(0, 1, hero);
+								break;
+							case "south":
+								checkForWin();
+								locationMap.moveTo(1, 0, hero);
+								break;
+							case "west":
+								checkForWin();
+								locationMap.moveTo(0, -1, hero);
+								break;
+							default:
+								print("You can't go that way...");
+								break;
+		            	}
+		                break;
+		            case "look":
+		            	if (input.isSplitWordTarget(1, "around")) {
+		            		if (locationMap.getCurrentLocation() != null) {
+		            			locationMap.printAllCurrentLocationInformation();
+		            		} else {
+		            			Game.print("There is nothing to see...");
+		            		}
+		            	} else if (input.isSplitWordTarget(1, "at")) {
+							locationMap.printTargetHostileStats(input.getInputWord(2));
+						}
+		            	break;
+		            case "attack":
+		            	if (input.getSplitLength() >= 2) {
+		            		hero.attack(locationMap.getHostileAtCurrentLocation(input.getInputWord(1)));
+		            	} else {
+		            		Game.print("You did not choose anything to attack...");
+		            	}
+		                break;
+		            case "quit":
+		                this.quit();
+		                break;
+		            case "restart":
+		                this.restart();
+		                break;
+		            case "reroll":
+		                hero.rerollCharacter();
+		                break;
+		            case "check":
+		            	switch (input.getInputWord(1)) {
+		            		case "stats":
+		            			hero.printStats();
+		            			break;
+		            		case "inventory":
+		            			hero.checkInventory();
+		            			break;
+		            		case "equipped":
+		            			hero.checkEquipped();
+		            			break;
+		            		case "health":
+		            			print("Health: " + hero.getStat("health"));
+		            			break;
+		            		default:
+		            			print("That is not something valid to check...");
+		            			break;
+		            	}
+		            	break;
+		            case "drop":
+		            	hero.removeItem(locationMap.getCurrentLocationItems(), input.getInputWord(1));
+		            	break;
+		            case "take":
+		            	hero.addItem(locationMap.getCurrentLocationItems(), input.getInputWord(1));
+		            	break;
+		            case "equip":
+		            	hero.equipItem(input.getInputWord(1));
+		            	break;
+		            case "unequip":
+		            	hero.unequipItem(input.getInputWord(1));
+		            	break;
+		            case "consume":
+		            	hero.consumeItem(input.getInputWord(1));
+		            	break;
+		            case "pause":
+		            	pause();
+		            	break;
+		            case "unpause":
+		            	unpause();
+		            	break;
+		            case "help":
+		            	printHelp();
+		            	break;
+		            default:
+		                print("That is not a valid command");
+		                break;
+		        }
+	    	} else {
+	    		switch (input.splitAndGetInput(0)) {
+		            case "quit":
+		                this.quit();
+		                break;
+		            case "restart":
+		                this.restart();
+		                break;
+		            case "reroll":
+		                hero.rerollCharacter();
+		                break;
+		            case "pause":
+		            	pause();
+		            	break;
+		            case "unpause":
+		            	unpause();
+		            	break;
+		            case "help":
+		            	printHelp();
+		            	break;
+		            default:
+		                print("That is not a valid command");
+		                break;
+		        }
+	    	}
+    	} catch (NoSuchElementException e) {}
     }
     
     public void runGame() {

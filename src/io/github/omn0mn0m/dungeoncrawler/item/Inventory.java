@@ -126,9 +126,7 @@ public class Inventory {
     				break;
     			}
     		}
-    	} catch (NullPointerException e) {
-    		Game.print("That doesn't exist!);
-    	}
+    	} catch (NullPointerException e) {}
     	return hasItem;
     }
     

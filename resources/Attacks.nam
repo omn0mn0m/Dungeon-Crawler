@@ -1,5 +1,5 @@
 Total:
-15
+14
 
 0-Key:
 punch
@@ -83,55 +83,46 @@ claws
 5
 
 9-Key:
-slice and dice
+stab
 9-Name:
-Slice and Dice
+Stab
 9-Requires:
-claws
+dagger
 9-AttackBuff:
 10
 
 10-Key:
-stab
+impale
 10-Name:
-Stab
+Impale
 10-Requires:
-dagger
+lance
 10-AttackBuff:
-10
+5
 
 11-Key:
-impale
-11-Name:
-Impale
-11-Requires:
-lance
-11-AttackBuff:
-5
-
-12-Key:
 shoot
-12-Name:
+11-Name:
 Shoot
-12-Requires:
+11-Requires:
 crossbow
-12-AttackBuff:
+11-AttackBuff:
 10
 
-13-Key:
+12-Key:
 bite
-13-Name:
+12-Name:
 Bite
-13-Requires:
+12-Requires:
 fangs
-13-AttackBuff:
+12-AttackBuff:
 5
 
-14-Key:
+13-Key:
 cleave
-14-Name:
+13-Name:
 Cleave
-14-Requires:
+13-Requires:
 axe
-14-AttackBuff:
+13-AttackBuff:
 5
