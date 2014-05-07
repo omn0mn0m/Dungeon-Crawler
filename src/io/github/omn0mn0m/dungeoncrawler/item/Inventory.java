@@ -119,11 +119,15 @@ public class Inventory {
      */
     public boolean hasItem(Item item) {
     	boolean hasItem = false;
-    	for (int i = 0; i < inventory.length; i++) {
-    		if (!slotEmpty(i) && checkSlot(i).isTarget(item.getName())) {
-    			hasItem = true;
-    			break;
+    	try {
+    		for (int i = 0; i < inventory.length; i++) {
+    			if (!slotEmpty(i) && checkSlot(i).isTarget(item.getName())) {
+    				hasItem = true;
+    				break;
+    			}
     		}
+    	} catch (NullPointerException e) {
+    		Game.print("That doesn't exist!);
     	}
     	return hasItem;
     }
