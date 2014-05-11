@@ -193,9 +193,11 @@ public class Game {
     public void runGame() {
 		for (int i = 0; i < locationMap.getHostilesInCurrentLocation(); i++) {
 			if (locationMap.getHostileAtCurrentLocation(i) != null) {
-				hero.takeDamage(locationMap.getHostileAtCurrentLocation(i), 0);
 				locationMap.getHostileAtCurrentLocation(i).checkIfAlive(hero);
-				locationMap.checkIfHostileDead(i);
+				locationMap.checkIfHostileDead(i, hero);
+				if (locationMap.getHostileAtCurrentLocation(i) != null) {
+					hero.takeDamage(locationMap.getHostileAtCurrentLocation(i), 0);
+				}
 			}
 		}
     	hero.checkIfAlive();

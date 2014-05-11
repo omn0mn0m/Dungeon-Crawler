@@ -12,8 +12,8 @@ public class Npc extends Entity {
 	
 	private boolean aggressive;
 
-	public Npc(String name, int health, int defense, int attack, boolean aggressive) {
-    	super(name, health, defense, attack);
+	public Npc(String name, int health, int defense, int attack, int xp, boolean aggressive) {
+    	super(name, health, defense, attack, xp);
     	this.aggressive = aggressive;
     }
 	

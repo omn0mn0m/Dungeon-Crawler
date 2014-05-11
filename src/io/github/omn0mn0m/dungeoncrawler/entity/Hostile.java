@@ -17,8 +17,8 @@ public class Hostile extends Entity {
 	 * @param defense
 	 * @param attack
 	 */
-    public Hostile(String name, int health, int defense, int attack) {
-    	super(name, health, defense, attack);
+    public Hostile(String name, int health, int defense, int attack, int xp) {
+    	super(name, health, defense, attack, xp);
     	alive = true;
     }
     
@@ -27,7 +27,7 @@ public class Hostile extends Entity {
      * @param hostile
      */
     public Hostile(Hostile hostile) {
-    	this(hostile.getName(), hostile.getStat("health"), hostile.getStat("defense"), hostile.getStat("attack"));
+    	this(hostile.getName(), hostile.getStat("health"), hostile.getStat("defense"), hostile.getStat("attack"), hostile.getStat("xp"));
     }
 
     /**

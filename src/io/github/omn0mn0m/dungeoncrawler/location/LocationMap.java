@@ -81,8 +81,8 @@ public class LocationMap {
 		enterCurrentMapLocation(entity);
 	}
 	
-	public void checkIfHostileDead(int index) {
-		getCurrentLocation().checkIfHostileDead(index);
+	public void checkIfHostileDead(int index, Entity cause) {
+		getCurrentLocation().checkIfHostileDead(index, cause);
 	}
 	
 	public void printCurrentItems() {

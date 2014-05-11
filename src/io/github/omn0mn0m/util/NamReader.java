@@ -51,6 +51,14 @@ public class NamReader {
 		}
 	}
 	
+	public int getTotal(String fileName) {
+		Game.namReader.loadFile(fileName);
+		Game.namReader.findData("Total");
+		int total = Game.namReader.getIntData();
+		Game.namReader.unloadFile();
+		return total;
+	}
+	
 	/**
 	 * Finds a data value for a specific search element. The format in the .nam file is:
 	 * (key)-(element):

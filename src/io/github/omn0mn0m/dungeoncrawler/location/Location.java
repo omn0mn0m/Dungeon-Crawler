@@ -69,8 +69,10 @@ public class Location {
     /**
      * Checks if a hostile in the location is dead, then deletes if it is.
      */
-    public void checkIfHostileDead(int index) {
+    public void checkIfHostileDead(int index, Entity cause) {
 		if (hostiles[index] != null && hostiles[index].isAlive() == false) {
+			hostiles[index].giveXP(cause);
+			cause.checkXP();
 			hostiles[index] = null;
 		}
     }

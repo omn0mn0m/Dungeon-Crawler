@@ -38,6 +38,7 @@ public class Hero extends Entity {
      */
     public Hero() {
     	this.name = "You";
+    	level = 1;
     }
     
     /**

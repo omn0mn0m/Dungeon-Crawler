@@ -25,7 +25,7 @@ public class ItemList {
 	 * Constructor that loads up the list
 	 */
 	public ItemList() {
-		this.loadTotalItems();
+		totalItems = Game.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapItems();
@@ -38,16 +38,6 @@ public class ItemList {
 	 */
 	public Item getItem(String key) {
 		return itemsMap.get(key);
-	}
-	
-	/**
-	 * Loads the number of total items from the file.
-	 */
-	public void loadTotalItems() {
-		Game.namReader.loadFile(fileName);
-		Game.namReader.findData("Total");
-		totalItems = Game.namReader.getIntData();
-		Game.namReader.unloadFile();
 	}
 	
 	/**

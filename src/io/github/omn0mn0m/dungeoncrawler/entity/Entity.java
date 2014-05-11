@@ -13,7 +13,7 @@ public abstract class Entity {
 	
 	protected String name, description;	// String info for an entity
     protected int attack, defense, health;	// Stats for an entity
-    protected int xp; // Experience points for an entity
+    protected int xp, level; // Experience points and level for an entity
     protected boolean alive = true;		// Whether an entity is alive or not
     
     protected Random random = new Random();	// Used for random numbers
@@ -32,11 +32,13 @@ public abstract class Entity {
      * @param defense
      * @param attack
      */
-    public Entity(String name, int health, int defense, int attack) {
+    public Entity(String name, int health, int defense, int attack, int xp) {
 		this.name = name;
 		this.health = health;
 		this.defense = defense;
 		this.attack = attack;
+		this.xp = xp;
+		level = 1;
 	}
     
     /**
@@ -47,8 +49,8 @@ public abstract class Entity {
      * @param defense
      * @param attack
      */
-    public Entity(String name, String description, int health, int defense, int attack) {
-		this(name, health, defense, attack);
+    public Entity(String name, String description, int health, int defense, int attack, int xp) {
+		this(name, health, defense, attack, xp);
 		this.description = description;
 	}
     
@@ -66,6 +68,10 @@ public abstract class Entity {
                 return defense;
             case "attack":
                 return attack;
+            case "xp":
+            	return xp;
+            case "level":
+            	return level;
             default:
                 break;
         }
@@ -88,6 +94,12 @@ public abstract class Entity {
             case "defense":
                 this.defense = change;
                 break;
+            case "xp":
+            	this.xp = change;
+            	break;
+            case "level":
+            	this.level = change;
+            	break;
             default:
                 break;
         }
@@ -101,6 +113,8 @@ public abstract class Entity {
     	Game.print("Health: " + health);
     	Game.print("Attack: " + attack);
     	Game.print("Defense: " + defense);
+    	Game.print("XP: " + xp);
+    	Game.print("Level: " + level);
     }
     
     /**
@@ -157,6 +171,32 @@ public abstract class Entity {
     	if (health <= 0) {
             alive = false;
         }
+    }
+    
+    /**
+     * Checks if the entity has enough xp for the next level, and acts accordingly.
+     */
+    public void checkXP() {
+    	int neededXp = 25 * level;
+    	while (xp >= neededXp) {
+    		xp -= neededXp;
+    		level += 1;
+    		
+    		attack += level;
+    		defense += level;
+    		health += level;
+    		
+    		Game.print(name + " has gained a level!");
+    		neededXp = 25 * level;
+    	}
+    }
+    
+    /**
+     * Gives the xp of the entity to another entity.
+     * @param target
+     */
+    public void giveXP(Entity target) {
+    	target.setStat("xp", (target.getStat("xp") + this.getStat("xp")));
     }
     
     /**

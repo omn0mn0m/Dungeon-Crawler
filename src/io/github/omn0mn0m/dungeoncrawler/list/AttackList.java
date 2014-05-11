@@ -25,7 +25,7 @@ public class AttackList {
 	 * Constructor that loads up the list
 	 */
 	public AttackList() {
-		this.loadTotalAttacks();
+		totalAttacks = Game.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapAttacks();
@@ -38,16 +38,6 @@ public class AttackList {
 	 */
 	public Attack getAttack(String key) {
 		return attacksMap.get(key);
-	}
-	
-	/**
-	 * Loads the number of total attacks from the file.
-	 */
-	public void loadTotalAttacks() {
-		Game.namReader.loadFile(fileName);
-		Game.namReader.findData("Total");
-		totalAttacks = Game.namReader.getIntData();
-		Game.namReader.unloadFile();
 	}
 	
 	/**

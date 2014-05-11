@@ -11,6 +11,8 @@ Fairy
 1
 0-Defense:
 0
+0-XP:
+1
 
 1-Key:
 goblin
@@ -21,6 +23,8 @@ Goblin
 1-Attack:
 10
 1-Defense:
+5
+1-XP:
 5
 
 2-Key:
@@ -33,6 +37,8 @@ Vampire
 20
 2-Defense:
 10
+2-XP:
+15
 
 3-Key:
 bandit
@@ -43,6 +49,8 @@ Bandit
 3-Attack:
 15
 3-Defense:
+10
+3-XP:
 10
 
 4-Key:
@@ -55,6 +63,8 @@ Ogre
 2
 4-Defense:
 25
+4-XP:
+10
 
 5-Key:
 werewolf
@@ -66,6 +76,8 @@ Werewolf
 25
 5-Defense:
 3
+5-XP:
+15
 
 6-Key:
 zombie
@@ -77,6 +89,8 @@ Zombie
 35
 6-Defense:
 0
+6-XP:
+10
 
 7-Key:
 spider
@@ -87,4 +101,6 @@ Spider
 7-Attack:
 15
 7-Defense:
+5
+7-XP:
 5

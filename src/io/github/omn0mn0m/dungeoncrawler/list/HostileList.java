@@ -25,7 +25,7 @@ public class HostileList {
 	 * Constructor that loads up the list
 	 */
 	public HostileList() {
-		this.loadTotalHostiles();
+		totalHostiles = Game.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapHostiles();
@@ -38,16 +38,6 @@ public class HostileList {
 	 */
 	public Hostile getHostile(String key) {
 		return hostileMap.get(key);
-	}
-	
-	/**
-	 * Loads the number of total hostiles from the file.
-	 */
-	public void loadTotalHostiles() {
-		Game.namReader.loadFile(fileName);
-		Game.namReader.findData("Total");
-		totalHostiles = Game.namReader.getIntData();
-		Game.namReader.unloadFile();
 	}
 	
 	/**
@@ -82,7 +72,10 @@ public class HostileList {
 	    	Game.namReader.findData(String.valueOf(i + "-Defense"));
 	    	int defense = Game.namReader.getIntData();
 	    	
-			values[i] = new Hostile(name, health, defense, attack);
+	    	Game.namReader.findData(String.valueOf(i + "-XP"));
+	    	int xp = Game.namReader.getIntData();
+	    	
+			values[i] = new Hostile(name, health, defense, attack, xp);
 		}
 	}
 	
