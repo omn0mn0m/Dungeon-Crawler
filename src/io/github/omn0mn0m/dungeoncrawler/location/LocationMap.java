@@ -65,10 +65,12 @@ public class LocationMap {
 	}
 	
 	public void resetMap() {
+		System.out.println(xLength + " " + yLength);
 		for (int i = 0; i < xLength; i++) {
-			for (int c = 0; c < yLength; i++) {
+			for (int c = 0; c < yLength; c++) {
 				if (locationMap[i][c] != null) {
 					locationMap[i][c] = null;
+					System.out.println(i + " " + c);
 				}
 			}
         }

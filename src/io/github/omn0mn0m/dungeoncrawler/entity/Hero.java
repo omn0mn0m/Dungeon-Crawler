@@ -152,13 +152,17 @@ public class Hero extends Entity {
      * @param item
      */
     public void removeItem(Inventory donationInventory, String item) {
-    	Item targetItem = Game.itemList.getItem(item);
-    	if (inventory.hasItem(targetItem)) {
-    		inventory.removeItem(targetItem);
-    		donationInventory.addItem(targetItem);
-    		Game.print("The " + item + " has been removed.");
-    	} else {
-    		Game.print("That item can't be removed!");
+    	try {
+	    	Item targetItem = Game.itemList.getItem(item);
+	    	if (inventory.hasItem(targetItem.getName())) {
+	    		inventory.removeItem(targetItem);
+	    		donationInventory.addItem(targetItem);
+	    		Game.print("The " + item + " has been removed.");
+	    	} else {
+	    		Game.print("That item can't be removed!");
+	    	}
+    	} catch (NullPointerException e) {
+    		Game.print("That item doesn't exist!");
     	}
     }
     
@@ -168,13 +172,17 @@ public class Hero extends Entity {
      * @param item
      */
     public void addItem(Inventory donorInventory, String item) {
-    	Item targetItem = Game.itemList.getItem(item);
-    	if (donorInventory.hasItem(targetItem)) {
-    		inventory.addItem(targetItem);
-    		donorInventory.removeItem(targetItem);
-    		Game.print("The " + item + " has been added.");
-    	} else {
-    		Game.print("That item can't be added!");
+    	try {
+	    	Item targetItem = Game.itemList.getItem(item);
+	    	if (donorInventory.hasItem(targetItem.getName())) {
+	    		inventory.addItem(targetItem);
+	    		donorInventory.removeItem(targetItem);
+	    		Game.print("The " + item + " has been added.");
+	    	} else {
+	    		Game.print("That item can't be added!");
+	    	}
+    	} catch (NullPointerException e) {
+    		Game.print("That item doesn't exist!");
     	}
     }
     
@@ -190,10 +198,10 @@ public class Hero extends Entity {
      * @param item
      */
     public void equipItem(String item) {
-    	Item targetItem = Game.itemList.getItem(item);
-    	int targetSlot = -1;
-    	
     	try {
+    		Item targetItem = Game.itemList.getItem(item);
+        	int targetSlot = -1;
+        	
 	    	if (targetItem.getType().equals("weapon")) {
 	    		targetSlot = WEAPON_SLOT;
 	    	} else if (targetItem.getType().equals("armour")) {
@@ -201,7 +209,7 @@ public class Hero extends Entity {
 	    	}
 	    	
 	    	if (targetSlot != -1) {
-		    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem)) {
+		    	if (equipped.slotEmpty(targetSlot) && inventory.hasItem(targetItem.getName())) {
 					equipped.add(targetSlot, targetItem);
 					inventory.removeItem(targetItem);
 					
@@ -221,10 +229,10 @@ public class Hero extends Entity {
     }
     
     public void unequipItem(String item) {
-    	Item targetItem = Game.itemList.getItem(item);
-    	int targetSlot = -1;
-    	
     	try {
+    		Item targetItem = Game.itemList.getItem(item);
+        	int targetSlot = -1;
+        	
 	    	if (targetItem.getType().equals("weapon")) {
 	    		targetSlot = WEAPON_SLOT;
 	    	} else if (targetItem.getType().equals("armour")) {
@@ -234,7 +242,7 @@ public class Hero extends Entity {
 	    	}
 	    	
 	    	if (targetSlot != -1) {
-		    	if (equipped.hasItem(targetItem)) {
+		    	if (equipped.hasItem(targetItem.getName())) {
 		    		// Adjusts the stats
 					this.attack -= targetItem.getStatBuff("attack");
 					this.defense -= targetItem.getStatBuff("defense");
@@ -253,18 +261,22 @@ public class Hero extends Entity {
     }
     
     public void consumeItem(String item) {
-    	Item targetItem = Game.itemList.getItem(item);
-    	
-    	if (inventory.hasItem(targetItem) && targetItem.getType().equals("consumable")) {
-    		// Adjusts the stats
-			this.attack += targetItem.getStatBuff("attack");
-			this.defense += targetItem.getStatBuff("defense");
-			this.health += targetItem.getStatBuff("health");
-    		
-    		inventory.removeItem(targetItem);
-    		Game.print("The " + item + " has been consumed.");
-    	} else {
-    		Game.print("That item can't be consumed!");
+    	try {
+	    	Item targetItem = Game.itemList.getItem(item);
+	    	
+	    	if (inventory.hasItem(targetItem.getName()) && targetItem.getType().equals("consumable")) {
+	    		// Adjusts the stats
+				this.attack += targetItem.getStatBuff("attack");
+				this.defense += targetItem.getStatBuff("defense");
+				this.health += targetItem.getStatBuff("health");
+	    		
+	    		inventory.removeItem(targetItem);
+	    		Game.print("The " + item + " has been consumed.");
+	    	} else {
+	    		Game.print("That item can't be consumed!");
+	    	}
+    	} catch (NullPointerException e) {
+    		Game.print("That item doesn't exist!");
     	}
     }
 }

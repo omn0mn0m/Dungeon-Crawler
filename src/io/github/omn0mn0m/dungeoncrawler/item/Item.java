@@ -74,6 +74,6 @@ public class Item {
 	}
 	
 	public boolean isTarget(String target) {
-    	return this.getName().equalsIgnoreCase(target);
+    	return getName().equalsIgnoreCase(target);
     }
 }

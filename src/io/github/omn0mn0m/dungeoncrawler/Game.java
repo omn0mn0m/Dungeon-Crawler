@@ -35,17 +35,14 @@ public class Game {
     
     
     public Game() {
-    	if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
-    		rootPath = "resources/";
-    	} else {
-    		rootPath = "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
-    	}
+    	rootPath = (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) ? "resources/" 
+    			: "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
     	
     	HELP_FILE = new File(rootPath + "help_file.txt");
     	try {
 			fileScanner = new Scanner(HELP_FILE);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Game.print("A file is missing...");
 		}
     	
     	hostileList = new HostileList();
@@ -125,9 +122,6 @@ public class Game {
 		            			break;
 		            		case "equipped":
 		            			hero.checkEquipped();
-		            			break;
-		            		case "health":
-		            			print("Health: " + hero.getStat("health"));
 		            			break;
 		            		default:
 		            			print("That is not something valid to check...");
@@ -281,7 +275,7 @@ public class Game {
     				break;
     			case "check":
     				Game.print("Syntax: check <vitals>");
-    				Game.print("You can check your stats, inventory, health and equipment.");
+    				Game.print("You can check your stats, inventory, and equipped.");
     				Game.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
     				break;
     			case "drop":

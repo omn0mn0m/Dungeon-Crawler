@@ -117,11 +117,11 @@ public class Inventory {
      * @param item
      * @return If has item
      */
-    public boolean hasItem(Item item) {
+    public boolean hasItem(String itemName) {
     	boolean hasItem = false;
     	try {
     		for (int i = 0; i < inventory.length; i++) {
-    			if (!slotEmpty(i) && checkSlot(i).isTarget(item.getName())) {
+    			if (!slotEmpty(i) && checkSlot(i).isTarget(itemName)) {
     				hasItem = true;
     				break;
     			}

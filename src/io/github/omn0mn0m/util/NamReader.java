@@ -51,6 +51,11 @@ public class NamReader {
 		}
 	}
 	
+	/**
+	 * Gets the total blocks to parse in .nam file.
+	 * @param fileName
+	 * @return Total
+	 */
 	public int getTotal(String fileName) {
 		Game.namReader.loadFile(fileName);
 		Game.namReader.findData("Total");

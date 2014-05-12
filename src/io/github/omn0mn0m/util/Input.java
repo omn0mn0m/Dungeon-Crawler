@@ -45,10 +45,10 @@ public class Input {
 	public String getInputWord(int wordNumber) {
 		String str = "";
 		
-		try {
+		if (wordNumber < splitInput.length) {
 			return splitInput[wordNumber];
-		} catch (NullPointerException e) {
-			Game.print("There is no word there...");
+		} else {
+			Game.print("There is a word missing in the input...");
 		}
 		
 		return str;
@@ -73,12 +73,11 @@ public class Input {
 		return splitInput.length;
 	}
 	
-	public boolean isSplitWordTarget(int word, String target) {
+	public boolean isSplitWordTarget(int wordNumber, String target) {
 		String comparedString = "";
 		
-		if (splitInput.length > word) {
-
-			comparedString = getInputWord(word);
+		if (wordNumber < splitInput.length) {
+			comparedString = getInputWord(wordNumber);
 		}
 		
 		return comparedString.equals(target);
