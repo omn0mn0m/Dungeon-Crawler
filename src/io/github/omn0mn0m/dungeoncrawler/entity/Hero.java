@@ -186,6 +186,10 @@ public class Hero extends Entity {
     	}
     }
     
+    public boolean hasInventoryItem(String item) {
+    	return inventory.hasItem(item);
+    }
+    
     /**
      * Prints the player's equip inventory.
      */
