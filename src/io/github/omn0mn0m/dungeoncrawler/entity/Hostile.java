@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.dungeoncrawler.entity;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.util.TextPrinter;
 
 /**
  * This is the class for the basic hostile. It has a name, health, defense, and attack.
@@ -38,7 +38,7 @@ public class Hostile extends Entity {
     public void checkIfAlive(Hero hero) {
     	this.checkHealth();
         if (!alive) {
-            Game.print(hero.getName() + " killed a " + name);
+            TextPrinter.print(hero.getName() + " killed a " + name);
         }
     }
     

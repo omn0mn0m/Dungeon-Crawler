@@ -5,6 +5,7 @@ import io.github.omn0mn0m.dungeoncrawler.entity.Entity;
 import io.github.omn0mn0m.dungeoncrawler.entity.Hostile;
 import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
+import io.github.omn0mn0m.util.TextPrinter;
 
 import java.util.Random;
 
@@ -41,7 +42,7 @@ public class Location {
     		this.generateItem();
     		generated = true;
     	} else {}
-		Game.print(entity.getName() + " walks into the room.");
+		TextPrinter.print(entity.getName() + " walks into the room.");
     }
     
     /**
@@ -70,7 +71,7 @@ public class Location {
      * Checks if a hostile in the location is dead, then deletes if it is.
      */
     public void checkIfHostileDead(int index, Entity cause) {
-		if (hostiles[index] != null && hostiles[index].isAlive() == false) {
+		if (hostiles[index] != null && !hostiles[index].isAlive()) {
 			hostiles[index].giveXP(cause);
 			cause.checkXP();
 			hostiles[index] = null;
@@ -92,7 +93,7 @@ public class Location {
      * Prints a list of items in the location.
      */
     public void printItems() {
-    	Game.print("Items:");
+    	TextPrinter.print("Items:");
     	locationItems.checkInventory(false);
     }
     
@@ -100,10 +101,10 @@ public class Location {
      * Prints a list of hostiles in the location.
      */
     public void printHostiles() {
-    	Game.print("Hostiles:");
+    	TextPrinter.print("Hostiles:");
     	for (int i = 0; i < hostiles.length; i++) {
     		if (hostiles[i] != null) {
-    			Game.print("- " + hostiles[i].getName());
+    			TextPrinter.print("- " + hostiles[i].getName());
     		}
     	}
     }

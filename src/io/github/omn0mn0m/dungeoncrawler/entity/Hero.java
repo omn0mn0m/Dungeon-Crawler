@@ -5,6 +5,7 @@ import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
 import io.github.omn0mn0m.dungeoncrawler.list.AttackList;
 import io.github.omn0mn0m.util.Input;
+import io.github.omn0mn0m.util.TextPrinter;
 
 /**
  * This is the class for the player.
@@ -12,7 +13,7 @@ import io.github.omn0mn0m.util.Input;
  *
  */
 public class Hero extends Entity {
-	
+
 	// Inventory sizes
 	private final int INVENTORY_SIZE = 9;
 	private final int EQUIPPED_SIZE = 2;
@@ -31,8 +32,8 @@ public class Hero extends Entity {
     private AttackList attackList = new AttackList();	// List of attacks the player can do
     
     private String playerClass;		// Class of the player
-	private String classFilePath = Game.rootPath + "Player Classes.nam";
-
+	private String classFilePath = "Player Classes.nam"; //The name of the .nam file
+	
     /**
      * Constructor
      */
@@ -45,27 +46,27 @@ public class Hero extends Entity {
      * Runs a script to select the player class and change the stats accordingly.
      */
     public void selectClass() {
-        Game.print("You wake up inside a dungeon. Fight your way out.");
-        Game.print("Actually, first you should select a class... (Type the name)");
-        Game.print("| Warrior | Rogue | Mage | Healer |");
+        TextPrinter.print("You wake up inside a dungeon. Fight your way out.");
+        TextPrinter.print("Actually, first you should select a class... (Type the name)");
+        TextPrinter.print("| Warrior | Rogue | Mage | Healer |");
         playerClass = input.splitAndGetInput(0);
-        Game.print("Okay, so you are a " + playerClass);
+        TextPrinter.print("Okay, so you are a " + playerClass);
         
-        Game.namReader.loadFile(classFilePath);
+        namReader.loadFile(classFilePath);
     	
-        Game.namReader.findData(String.valueOf(playerClass + "-Health"));
-    	health = Game.namReader.getIntData();
+        namReader.findData(String.valueOf(playerClass + "-Health"));
+    	health = namReader.getIntData();
     	
-    	Game.namReader.findData(String.valueOf(playerClass + "-Attack"));
-    	attack = Game.namReader.getIntData();
+    	namReader.findData(String.valueOf(playerClass + "-Attack"));
+    	attack = namReader.getIntData();
     	
-    	Game.namReader.findData(String.valueOf(playerClass + "-Defense"));
-    	defense = Game.namReader.getIntData();
+    	namReader.findData(String.valueOf(playerClass + "-Defense"));
+    	defense = namReader.getIntData();
     	
-    	Game.namReader.unloadFile();
+    	namReader.unloadFile();
     	
-    	if (!Game.namReader.isFoundElement()) {
-    		Game.print("That's awkward... your class doesn't actually do anything... Do you still wish to proceed?");
+    	if (!namReader.isFoundElement()) {
+    		TextPrinter.print("That's awkward... your class doesn't actually do anything... Do you still wish to proceed?");
             if (input.splitAndGetInput(0).equals("yes")) {
             	this.setStats(random.nextInt(RANDOM_HEALTH), random.nextInt(RANDOM_ATTACK), random.nextInt(RANDOM_DEFENSE));
             } else {
@@ -80,7 +81,7 @@ public class Hero extends Entity {
     public void checkIfAlive() {
     	this.checkHealth();
         if (!alive) {
-        	Game.print("You have died.");
+        	TextPrinter.print("You have died.");
             System.exit(0);
         }
     }
@@ -91,21 +92,21 @@ public class Hero extends Entity {
      */
     public void attack(Hostile hostile) {
         if (hostile == null) {
-        	Game.print("You can't attack what's not there...");
+        	TextPrinter.print("You can't attack what's not there...");
         } else {
         	int attackBuff = 0;
-            Game.print("Which attack should you use?");
+            TextPrinter.print("Which attack should you use?");
             String attackType = input.getSimpleInput();
             
             if (attackList.getAttack(attackType) != null) {
             	if (equipped.checkSlot(WEAPON_SLOT) != null && attackList.getAttack(attackType).getAttackRequires().equalsIgnoreCase(equipped.checkSlot(WEAPON_SLOT).getName())) {
             		attackBuff = attackList.getAttack(attackType).getAttackBuff();
             	} else {
-            		Game.print("You attack, but a lack of items makes it not as effective...");
+            		TextPrinter.print("You attack, but a lack of items makes it not as effective...");
             	}
             }
             
-        	Game.print("You " + attackType + " the " + hostile.getName() + ".");
+        	TextPrinter.print("You " + attackType + " the " + hostile.getName() + ".");
             hostile.takeDamage(this, attackBuff);
         }
     }
@@ -114,11 +115,11 @@ public class Hero extends Entity {
      * Runs the script to reroll the character's class and stats.
      */
     public void rerollCharacter() {
-    	Game.print("Are you sure you wish to reroll your character? This will knock you unconscious...");
+    	TextPrinter.print("Are you sure you wish to reroll your character? This will knock you unconscious...");
         if (input.getSimpleInput().equalsIgnoreCase("yes")) {
             this.selectClass();
         } else {
-        	Game.print("You have cancelled your rerolling.");
+        	TextPrinter.print("You have cancelled your rerolling.");
         }
     }
     
@@ -143,7 +144,7 @@ public class Hero extends Entity {
      */
     public void removeSlot(int slot) {
     	inventory.removeSlot(slot);
-    	Game.print("Slot " + slot + " has been emptied.");
+    	TextPrinter.print("Slot " + slot + " has been emptied.");
     }
     
     /**
@@ -157,12 +158,12 @@ public class Hero extends Entity {
 	    	if (inventory.hasItem(targetItem.getName())) {
 	    		inventory.removeItem(targetItem);
 	    		donationInventory.addItem(targetItem);
-	    		Game.print("The " + item + " has been removed.");
+	    		TextPrinter.print("The " + item + " has been removed.");
 	    	} else {
-	    		Game.print("That item can't be removed!");
+	    		TextPrinter.print("That item can't be removed!");
 	    	}
     	} catch (NullPointerException e) {
-    		Game.print("That item doesn't exist!");
+    		TextPrinter.print("That item doesn't exist!");
     	}
     }
     
@@ -177,12 +178,12 @@ public class Hero extends Entity {
 	    	if (donorInventory.hasItem(targetItem.getName())) {
 	    		inventory.addItem(targetItem);
 	    		donorInventory.removeItem(targetItem);
-	    		Game.print("The " + item + " has been added.");
+	    		TextPrinter.print("The " + item + " has been added.");
 	    	} else {
-	    		Game.print("That item can't be added!");
+	    		TextPrinter.print("That item can't be added!");
 	    	}
     	} catch (NullPointerException e) {
-    		Game.print("That item doesn't exist!");
+    		TextPrinter.print("That item doesn't exist!");
     	}
     }
     
@@ -222,13 +223,13 @@ public class Hero extends Entity {
 					this.defense += targetItem.getStatBuff("defense");
 					this.health += targetItem.getStatBuff("health");
 					
-					Game.print(name + " has equipped a " + targetItem.getName() + ".");
+					TextPrinter.print(name + " has equipped a " + targetItem.getName() + ".");
 				} else {
-					Game.print("You can't equip that!");
+					TextPrinter.print("You can't equip that!");
 				}
 	    	}
     	} catch (NullPointerException e) {
-    		Game.print("That item doesn't exist!");
+    		TextPrinter.print("That item doesn't exist!");
     	}
     }
     
@@ -242,7 +243,7 @@ public class Hero extends Entity {
 	    	} else if (targetItem.getType().equals("armour")) {
 	    		targetSlot = ARMOUR_SLOT;
 	    	} else {
-	    		Game.print("You cannot unequip that!");
+	    		TextPrinter.print("You cannot unequip that!");
 	    	}
 	    	
 	    	if (targetSlot != -1) {
@@ -254,13 +255,13 @@ public class Hero extends Entity {
 					
 					equipped.removeItem(targetItem);
 					inventory.addItem(targetItem);
-					Game.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
+					TextPrinter.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
 				} else {
-					Game.print("That slot is already empty!");
+					TextPrinter.print("That slot is already empty!");
 				}
 	    	}
     	} catch (NullPointerException e) {
-    		Game.print("That item doesn't exist!");
+    		TextPrinter.print("That item doesn't exist!");
     	}
     }
     
@@ -275,12 +276,12 @@ public class Hero extends Entity {
 				this.health += targetItem.getStatBuff("health");
 	    		
 	    		inventory.removeItem(targetItem);
-	    		Game.print("The " + item + " has been consumed.");
+	    		TextPrinter.print("The " + item + " has been consumed.");
 	    	} else {
-	    		Game.print("That item can't be consumed!");
+	    		TextPrinter.print("That item can't be consumed!");
 	    	}
     	} catch (NullPointerException e) {
-    		Game.print("That item doesn't exist!");
+    		TextPrinter.print("That item doesn't exist!");
     	}
     }
 }

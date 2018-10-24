@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.dungeoncrawler.entity;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.util.NamReader;
+import io.github.omn0mn0m.util.TextPrinter;
 
 import java.util.Random;
 
@@ -17,6 +18,7 @@ public abstract class Entity {
     protected boolean alive = true;		// Whether an entity is alive or not
     
     protected Random random = new Random();	// Used for random numbers
+    protected NamReader namReader = new NamReader(); //NamReader for reading the list values out of a .nam file
     
     /**
      * Constructor
@@ -109,12 +111,12 @@ public abstract class Entity {
      * Prints the stats of an entity.
      */
     public void printStats() {
-    	Game.print("Name: " + name);
-    	Game.print("Health: " + health);
-    	Game.print("Attack: " + attack);
-    	Game.print("Defense: " + defense);
-    	Game.print("XP: " + xp);
-    	Game.print("Level: " + level);
+    	TextPrinter.print("Name: " + name);
+    	TextPrinter.print("Health: " + health);
+    	TextPrinter.print("Attack: " + attack);
+    	TextPrinter.print("Defense: " + defense);
+    	TextPrinter.print("XP: " + xp);
+    	TextPrinter.print("Level: " + level);
     }
     
     /**
@@ -126,9 +128,9 @@ public abstract class Entity {
         int attackDamage = (attacker.getStat("attack") + attackBuff) - this.defense;
         if (attackDamage > 0) {
             this.health -= attackDamage;
-            Game.print(attacker.getName() + " deals " + attackDamage + " to " + this.name + ".");
+            TextPrinter.print(attacker.getName() + " deals " + attackDamage + " to " + this.name + ".");
         } else {
-        	Game.print(this.name + " gets attacked by " + attacker.getName() + ", but it does no damage.");
+        	TextPrinter.print(this.name + " gets attacked by " + attacker.getName() + ", but it does no damage.");
         }
     }
     
@@ -186,7 +188,7 @@ public abstract class Entity {
     		defense += level;
     		health += level;
     		
-    		Game.print(name + " has gained a level!");
+    		TextPrinter.print(name + " has gained a level!");
     		neededXp = 25 * level;
     	}
     }

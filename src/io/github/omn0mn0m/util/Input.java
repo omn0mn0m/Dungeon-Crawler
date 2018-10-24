@@ -1,7 +1,5 @@
 package io.github.omn0mn0m.util;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
-
 import java.util.Scanner;
 
 /**
@@ -48,7 +46,7 @@ public class Input {
 		if (wordNumber < splitInput.length) {
 			return splitInput[wordNumber];
 		} else {
-			Game.print("There is a word missing in the input...");
+			TextPrinter.print("There is a word missing in the input...");
 		}
 		
 		return str;
