@@ -1,6 +1,5 @@
 package io.github.omn0mn0m.dungeoncrawler.list;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
 import io.github.omn0mn0m.dungeoncrawler.entity.Hostile;
 
 import java.util.HashMap;
@@ -11,21 +10,18 @@ import java.util.Map;
  * @author Nam Tran
  *
  */
-public class HostileList {
-    
-    private String[] keys;	// List of keys for each hostile
+public class HostileList extends NamList {
+
     private Hostile[] values;	// List of hostiles
     private Map<String, Hostile> hostileMap;	// Map of keys and which hostile they correspond to
-    
-    private String fileName = Game.rootPath + "Hostile.nam";	// Name of the file for the list of hostiles
-    
-    private int totalHostiles = 0;	// Total attacks in the game
+    private String fileName = "Hostile.nam";	// Name of the file for the list of hostiles
+    private int totalHostiles;	// Total hostiles in the game
     
     /**
 	 * Constructor that loads up the list
 	 */
 	public HostileList() {
-		totalHostiles = Game.namReader.getTotal(fileName);
+		totalHostiles = namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapHostiles();
@@ -33,8 +29,8 @@ public class HostileList {
 	
 	/**
 	 * Returns a hostile that corresponds to a specified key.
-	 * @param key
-	 * @return
+	 * @param key - The hostile to be searched
+	 * @return a Hostile
 	 */
 	public Hostile getHostile(String key) {
 		return hostileMap.get(key);
@@ -45,12 +41,12 @@ public class HostileList {
 	 */
 	public void loadKeys() {
 		keys = new String[totalHostiles];
-		Game.namReader.loadFile(fileName);
+		namReader.loadFile(fileName);
 		for (int i = 0; i < totalHostiles; i++) {
-			Game.namReader.findData(i + "-Key");
-			keys[i] = Game.namReader.getStringData();
+			namReader.findData(i + "-Key");
+			keys[i] = namReader.getStringData();
 		}
-		Game.namReader.unloadFile();
+		namReader.unloadFile();
 	}
 	
 	/**
@@ -58,22 +54,22 @@ public class HostileList {
 	 */
 	public void loadValues() {
 		values = new Hostile[totalHostiles];
-		Game.namReader.loadFile(fileName);
+		namReader.loadFile(fileName);
 		for (int i = 0; i < totalHostiles; i++) {
-			Game.namReader.findData(String.valueOf(i + "-Name"));
-	    	String name = Game.namReader.getStringData();
+			namReader.findData(String.valueOf(i + "-Name"));
+	    	String name = namReader.getStringData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Health"));
-	    	int health = Game.namReader.getIntData();
+	    	namReader.findData(String.valueOf(i + "-Health"));
+	    	int health = namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Attack"));
-	    	int attack = Game.namReader.getIntData();
+	    	namReader.findData(String.valueOf(i + "-Attack"));
+	    	int attack = namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Defense"));
-	    	int defense = Game.namReader.getIntData();
+	    	namReader.findData(String.valueOf(i + "-Defense"));
+	    	int defense = namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-XP"));
-	    	int xp = Game.namReader.getIntData();
+	    	namReader.findData(String.valueOf(i + "-XP"));
+	    	int xp = namReader.getIntData();
 	    	
 			values[i] = new Hostile(name, health, defense, attack, xp);
 		}
@@ -96,13 +92,5 @@ public class HostileList {
 	public int getTotalHostiles() {
 		return totalHostiles;
 	}
-	
-	/**
-	 * Gets the key based on where it appears in the hostiles file.
-	 * @param number
-	 * @return
-	 */
-	public String getKey(int number) {
-		return keys[number];
-	}
+
 }

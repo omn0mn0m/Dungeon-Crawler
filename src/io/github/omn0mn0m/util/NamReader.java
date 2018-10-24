@@ -1,7 +1,5 @@
 package io.github.omn0mn0m.util;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -16,11 +14,12 @@ import java.util.Scanner;
  * 
  */
 public class NamReader {
-	
-	// The target file to be read
-	File file;
-	// Scanner to parse the file
-	Scanner scanner;
+
+    private String rootPath = (System.getProperty("os.name").toLowerCase().contains("win")) ? "resources/"
+                                : "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
+
+    // Scanner to parse the file
+    private Scanner scanner;
 	
 	// String for the location of the file
 	private String filepath;
@@ -39,48 +38,61 @@ public class NamReader {
 	/**
 	 * Loads a file from a specified filepath for the NamReader to use.
 	 * It returns a missing file message if the filepath is not correct.
-	 * @param filepath
+	 * @param fileName - The name of the file
 	 */
-	public void loadFile(String filepath) {
-		this.setFilepath(filepath);
+	public void loadFile(String fileName) {
+		this.setFilepath(fileName);
 		try {
-			file = new File(filepath);
+            // The target file to be read
+            File file = new File(filepath);
 			scanner = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			Game.print("A file is missing...");
+			TextPrinter.print("A file is missing...");
 		}
 	}
-	
+
+    /**
+     * Finds a data value for a specific search element. The format in the .nam file is:
+     * (key)-(element):
+     * with the key being a number and the element being the one searched for. The entire
+     * string is put in as the element parameter.
+     * @param element - The element to be searched
+     */
+    public void findData(String element) {
+        while (scanner.hasNextLine()) {
+            if (scanner.nextLine().equalsIgnoreCase(element + ":")) {
+                data = scanner.nextLine();
+                foundElement = true;
+                break;
+            } else {
+                foundElement = false;
+            }
+        }
+    }
+
+    /**
+     * Returns the data as an integer.
+     * @return Int data
+     */
+    public int getIntData() {
+        int getData = 0;
+        if (foundElement) {
+            return Integer.parseInt(data);
+        }
+        return getData;
+    }
+
 	/**
 	 * Gets the total blocks to parse in .nam file.
-	 * @param fileName
-	 * @return Total
+	 * @param fileName - The name of the file
+	 * @return Total - The total amount found in the list
 	 */
 	public int getTotal(String fileName) {
-		Game.namReader.loadFile(fileName);
-		Game.namReader.findData("Total");
-		int total = Game.namReader.getIntData();
-		Game.namReader.unloadFile();
+		loadFile(fileName);
+		findData("Total");
+		int total = getIntData();
+		unloadFile();
 		return total;
-	}
-	
-	/**
-	 * Finds a data value for a specific search element. The format in the .nam file is:
-	 * (key)-(element):
-	 * with the key being a number and the element being the one searched for. The entire
-	 * string is put in as the element parameter.
-	 * @param element
-	 */
-	public void findData(String element) {
-		while (scanner.hasNextLine()) {
-			if (scanner.nextLine().equalsIgnoreCase(element + ":")) {
-				data = scanner.nextLine();
-				foundElement = true;
-				break;
-			} else {
-				foundElement = false;
-			}
-		}
 	}
 	
 	/**
@@ -91,18 +103,6 @@ public class NamReader {
 		String getData = "";
 		if (foundElement) {
 			return data;
-		}
-		return getData;
-	}
-	
-	/**
-	 * Returns the data as an integer.
-	 * @return Int data
-	 */
-	public int getIntData() {
-		int getData = 0;
-		if (foundElement) {
-			return Integer.parseInt(data);
 		}
 		return getData;
 	}
@@ -137,10 +137,10 @@ public class NamReader {
 
 	/**
 	 * Sets the current filepath.
-	 * @param filepath
+	 * @param filepath - The path to the file
 	 */
 	public void setFilepath(String filepath) {
-		this.filepath = filepath;
+		this.filepath = rootPath + filepath;
 	}
 
 	/**

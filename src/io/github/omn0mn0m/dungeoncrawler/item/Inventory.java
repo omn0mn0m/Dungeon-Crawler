@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.dungeoncrawler.item;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.util.TextPrinter;
 
 /**
  * This is the basic inventory for items. It has all the methods needed for basic
@@ -28,15 +28,15 @@ public class Inventory {
 		if (showEmpty) {
 	    	for (int i = 0; i < inventory.length; i++) {
 	    		if (!this.slotEmpty(i)) {
-	    			Game.print(i + ". " + inventory[i].getName());
+	    			TextPrinter.print(i + ". " + inventory[i].getName());
 	    		} else {
-	    			Game.print(i + ". Empty Slot");
+	    			TextPrinter.print(i + ". Empty Slot");
 	    		}
 	    	}
 		} else {
 			for (int i = 0; i < inventory.length; i++) {
 	    		if (!this.slotEmpty(i)) {
-	    			Game.print("- " + inventory[i].getName());
+	    			TextPrinter.print("- " + inventory[i].getName());
 	    		}
 	    	}
 		}
@@ -114,7 +114,6 @@ public class Inventory {
     
     /**
      * Returns if the inventory has a specified item.
-     * @param item
      * @return If has item
      */
     public boolean hasItem(String itemName) {

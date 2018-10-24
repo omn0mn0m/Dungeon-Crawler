@@ -4,6 +4,7 @@ import io.github.omn0mn0m.dungeoncrawler.Game;
 import io.github.omn0mn0m.dungeoncrawler.entity.Entity;
 import io.github.omn0mn0m.dungeoncrawler.entity.Hostile;
 import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
+import io.github.omn0mn0m.util.TextPrinter;
 
 public class LocationMap {
 	
@@ -57,10 +58,10 @@ public class LocationMap {
 				}
 				getCurrentLocation().enterLocation(entity);
 			} else {
-				Game.print("You cannot move further in that direction...");
+				TextPrinter.print("You cannot move further in that direction...");
 			}
 		} else {
-			Game.print("You try to run, but are stopped!");
+			TextPrinter.print("You try to run, but are stopped!");
 		}
 	}
 	

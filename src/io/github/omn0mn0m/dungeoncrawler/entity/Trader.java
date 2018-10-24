@@ -3,6 +3,7 @@ package io.github.omn0mn0m.dungeoncrawler.entity;
 import io.github.omn0mn0m.dungeoncrawler.Game;
 import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
+import io.github.omn0mn0m.util.TextPrinter;
 
 public class Trader extends Entity {
 	
@@ -15,7 +16,7 @@ public class Trader extends Entity {
 		this.name = name;
 		fillInventory();
 		 
-		Game.print("Hey there! I'm " + this.name + ". You can trade with me.");
+		TextPrinter.print("Hey there! I'm " + this.name + ". You can trade with me.");
 	}
 	
 	public void checkInventory() {
@@ -27,7 +28,7 @@ public class Trader extends Entity {
 			hero.removeItem(inventory, playerItem);
 			hero.addItem(inventory, traderItem);
 		} else {
-			Game.print("Something was missing in the transaction!");
+			TextPrinter.print("Something was missing in the transaction!");
 		}
 	}
 	

@@ -5,7 +5,7 @@ import io.github.omn0mn0m.dungeoncrawler.list.HostileList;
 import io.github.omn0mn0m.dungeoncrawler.list.ItemList;
 import io.github.omn0mn0m.dungeoncrawler.location.LocationMap;
 import io.github.omn0mn0m.util.Input;
-import io.github.omn0mn0m.util.NamReader;
+import io.github.omn0mn0m.util.TextPrinter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,9 +16,9 @@ import java.util.Scanner;
 public class Game {
 
     private final int ROOMS_TO_WIN = 10;
-	
-    public static final NamReader namReader = new NamReader();
-	public static String rootPath;
+
+	public static String rootPath = (System.getProperty("os.name").toLowerCase().contains("win")) ? "resources/"
+									: "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
 	public static String helpFilename;
 	public static File HELP_FILE;
 	private Scanner fileScanner;
@@ -35,24 +35,22 @@ public class Game {
     
     
     public Game() {
-    	rootPath = (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) ? "resources/" 
-    			: "storage/emulated/0/AppProjects/Dungeon-Crawler/resources/";
-    	
+
     	HELP_FILE = new File(rootPath + "help_file.txt");
     	try {
 			fileScanner = new Scanner(HELP_FILE);
 		} catch (FileNotFoundException e) {
-			Game.print("A file is missing...");
+			TextPrinter.print("A file is missing...");
 		}
     	
     	hostileList = new HostileList();
-    	Game.print("Hostiles list successfully loaded!");
+    	TextPrinter.print("Hostiles list successfully loaded!");
     	itemList = new ItemList();
-    	Game.print("Items list successfully loaded!");
+    	TextPrinter.print("Items list successfully loaded!");
     	hero = new Hero();
-    	Game.print("Attacks list successfully loaded!");
-    	Game.print("Player successfully loaded!");
-    	Game.print("Swag out. \n");
+    	TextPrinter.print("Attacks list successfully loaded!");
+    	TextPrinter.print("Player successfully loaded!");
+    	TextPrinter.print("Swag out. \n");
     	
     	locationMap.createRoomAtPlayer(0, random.nextInt(itemList.getTotalItems()));
 		locationMap.enterCurrentMapLocation(hero);
@@ -81,7 +79,7 @@ public class Game {
 								locationMap.moveTo(0, -1, hero);
 								break;
 							default:
-								print("You can't go that way...");
+								TextPrinter.print("You can't go that way...");
 								break;
 		            	}
 		                break;
@@ -90,7 +88,7 @@ public class Game {
 		            		if (locationMap.getCurrentLocation() != null) {
 		            			locationMap.printAllCurrentLocationInformation();
 		            		} else {
-		            			Game.print("There is nothing to see...");
+		            			TextPrinter.print("There is nothing to see...");
 		            		}
 		            	} else if (input.isSplitWordTarget(1, "at")) {
 							locationMap.printTargetHostileStats(input.getInputWord(2));
@@ -100,7 +98,7 @@ public class Game {
 		            	if (input.getSplitLength() >= 2) {
 		            		hero.attack(locationMap.getHostileAtCurrentLocation(input.getInputWord(1)));
 		            	} else {
-		            		Game.print("You did not choose anything to attack...");
+		            		TextPrinter.print("You did not choose anything to attack...");
 		            	}
 		                break;
 		            case "quit":
@@ -124,7 +122,7 @@ public class Game {
 		            			hero.checkEquipped();
 		            			break;
 		            		default:
-		            			print("That is not something valid to check...");
+		            			TextPrinter.print("That is not something valid to check...");
 		            			break;
 		            	}
 		            	break;
@@ -153,7 +151,7 @@ public class Game {
 		            	printHelp();
 		            	break;
 		            default:
-		                print("That is not a valid command");
+		                TextPrinter.print("That is not a valid command");
 		                break;
 		        }
 	    	} else {
@@ -177,7 +175,7 @@ public class Game {
 		            	printHelp();
 		            	break;
 		            default:
-		                print("That is not a valid command");
+		                TextPrinter.print("That is not a valid command");
 		                break;
 		        }
 	    	}
@@ -203,22 +201,22 @@ public class Game {
     
     public void checkForWin() {
     	if (locationMap.getRoomsCleared() == ROOMS_TO_WIN) {
-    		print("You walk through into the next room, but there is no more dungeon. You have reached the end. Congradulations!");
+    		TextPrinter.print("You walk through into the next room, but there is no more dungeon. You have reached the end. Congradulations!");
             System.exit(0);
     	}
     }
     
     public void quit() {
-    	print("Are you sure you want to quit? ");
+    	TextPrinter.print("Are you sure you want to quit? ");
         if(input.getSimpleInput().equalsIgnoreCase("yes")) {
             System.exit(0);
         } else {
-        	print("Resuming game then...");
+        	TextPrinter.print("Resuming game then...");
         }
     }
     
     public void restart() {
-    	print("Are you sure you want to restart?");
+    	TextPrinter.print("Are you sure you want to restart?");
         if(input.getSimpleInput().equalsIgnoreCase("Yes")) {
             locationMap.resetMap();
             locationMap.resetPlayerLocation(hero);
@@ -228,12 +226,12 @@ public class Game {
     
     public void pause() {
     	paused = true;
-    	print("The game is now paused.");
+    	TextPrinter.print("The game is now paused.");
     }
     
     public void unpause() {
     	paused = false;
-    	print("The game is resuming.");
+    	TextPrinter.print("The game is resuming.");
     }
     
     public boolean isPaused() {
@@ -244,79 +242,75 @@ public class Game {
     	if(input.getSplitLength() == 1) {
 			while(fileScanner.hasNextLine()) {
 				String fileStr = fileScanner.useDelimiter("[\\r\\n]+").next();
-				Game.print(fileStr);
+				TextPrinter.print(fileStr);
 			}
     	} else {
     		switch(input.getInputWord(1)) {
     			case "go":
-    				Game.print("Syntax: go <direction>");
-    				Game.print("You may go north, south, east, or west.");
-    				Game.print("You are not imaginative enough to even think of going other directions.");
+    				TextPrinter.print("Syntax: go <direction>");
+    				TextPrinter.print("You may go north, south, east, or west.");
+    				TextPrinter.print("You are not imaginative enough to even think of going other directions.");
     				break;
     			case "look":
-    				Game.print("Syntax: look <arguments> <object>");
-    				Game.print("You can look around anywhere, but you can only look at objects.");
+    				TextPrinter.print("Syntax: look <arguments> <object>");
+    				TextPrinter.print("You can look around anywhere, but you can only look at objects.");
     				break;
     			case "attack":
-    				Game.print("Syntax: attack <enemy>");
-    				Game.print("Just be sure you're attacking what is actually there!");
+    				TextPrinter.print("Syntax: attack <enemy>");
+    				TextPrinter.print("Just be sure you're attacking what is actually there!");
     				break;
     			case "quit":
-    				Game.print("Syntax: quit");
-    				Game.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
+    				TextPrinter.print("Syntax: quit");
+    				TextPrinter.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
     				break;
     			case "restart":
-    				Game.print("Syntax: restart");
-    				Game.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
+    				TextPrinter.print("Syntax: restart");
+    				TextPrinter.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
     				break;
     			case "reroll":
-    				Game.print("Syntax: reroll");
-    				Game.print("Resets your character's stats, so you can change them.");
+    				TextPrinter.print("Syntax: reroll");
+    				TextPrinter.print("Resets your character's stats, so you can change them.");
     				break;
     			case "check":
-    				Game.print("Syntax: check <vitals>");
-    				Game.print("You can check your stats, inventory, and equipped.");
-    				Game.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
+    				TextPrinter.print("Syntax: check <vitals>");
+    				TextPrinter.print("You can check your stats, inventory, and equipped.");
+    				TextPrinter.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
     				break;
     			case "drop":
-    				Game.print("Syntax: drop <item>");
-    				Game.print("Drops the item that you specify. Be careful what you do with basses.");
+    				TextPrinter.print("Syntax: drop <item>");
+    				TextPrinter.print("Drops the item that you specify. Be careful what you do with basses.");
     				break;
     			case "take":
-    				Game.print("Syntax: take <item>");
-    				Game.print("Takes an item from the surroundings and places it in your inventory.");
+    				TextPrinter.print("Syntax: take <item>");
+    				TextPrinter.print("Takes an item from the surroundings and places it in your inventory.");
     				break;
     			case "equip":
-    				Game.print("Syntax: equip <item>");
-    				Game.print("Equips the item you specify. Just be sure you actually have the item...");
+    				TextPrinter.print("Syntax: equip <item>");
+    				TextPrinter.print("Equips the item you specify. Just be sure you actually have the item...");
     				break;
     			case "unequip":
-    				Game.print("Syntax: unequip <item>");
-    				Game.print("Removes the item from your equipment and places it in your inventory.");
+    				TextPrinter.print("Syntax: unequip <item>");
+    				TextPrinter.print("Removes the item from your equipment and places it in your inventory.");
     				break;
     			case "consume":
-    				Game.print("Syntax: consume <item>");
-    				Game.print("Consumes an item from your inventory and removes it from your inventory.");
+    				TextPrinter.print("Syntax: consume <item>");
+    				TextPrinter.print("Consumes an item from your inventory and removes it from your inventory.");
     				break;
     			case "pause":
-    				Game.print("Syntax: pause");
-    				Game.print("Pauses the game, like stopping the world, only possible");
+    				TextPrinter.print("Syntax: pause");
+    				TextPrinter.print("Pauses the game, like stopping the world, only possible");
     				break;
     			case "unpause":
-    				Game.print("Syntax: unpause");
-    				Game.print("Unpauses the game, like unstopping the world but...");
-    				Game.print("You know, now that I think about it, this is a really bad analogy");
+    				TextPrinter.print("Syntax: unpause");
+    				TextPrinter.print("Unpauses the game, like unstopping the world but...");
+    				TextPrinter.print("You know, now that I think about it, this is a really bad analogy");
     				break;
     			case "help":
-    				Game.print("Syntax: help <command>");
-    				Game.print("You ask for help, recieving a list of commands if you do not specify one.");
-    				Game.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
+    				TextPrinter.print("Syntax: help <command>");
+    				TextPrinter.print("You ask for help, recieving a list of commands if you do not specify one.");
+    				TextPrinter.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
     				break;
     		}
     	}
-    }
-    
-    public static void print(String string) {
-    	System.out.println(string);
     }
 }
