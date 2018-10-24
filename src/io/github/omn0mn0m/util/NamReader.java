@@ -50,7 +50,38 @@ public class NamReader {
 			TextPrinter.print("A file is missing...");
 		}
 	}
-	
+
+    /**
+     * Finds a data value for a specific search element. The format in the .nam file is:
+     * (key)-(element):
+     * with the key being a number and the element being the one searched for. The entire
+     * string is put in as the element parameter.
+     * @param element - The element to be searched
+     */
+    public void findData(String element) {
+        while (scanner.hasNextLine()) {
+            if (scanner.nextLine().equalsIgnoreCase(element + ":")) {
+                data = scanner.nextLine();
+                foundElement = true;
+                break;
+            } else {
+                foundElement = false;
+            }
+        }
+    }
+
+    /**
+     * Returns the data as an integer.
+     * @return Int data
+     */
+    public int getIntData() {
+        int getData = 0;
+        if (foundElement) {
+            return Integer.parseInt(data);
+        }
+        return getData;
+    }
+
 	/**
 	 * Gets the total blocks to parse in .nam file.
 	 * @param fileName - The name of the file
@@ -65,25 +96,6 @@ public class NamReader {
 	}
 	
 	/**
-	 * Finds a data value for a specific search element. The format in the .nam file is:
-	 * (key)-(element):
-	 * with the key being a number and the element being the one searched for. The entire
-	 * string is put in as the element parameter.
-	 * @param element - The element to be searched
-	 */
-	public void findData(String element) {
-		while (scanner.hasNextLine()) {
-			if (scanner.nextLine().equalsIgnoreCase(element + ":")) {
-				data = scanner.nextLine();
-				foundElement = true;
-				break;
-			} else {
-				foundElement = false;
-			}
-		}
-	}
-	
-	/**
 	 * Returns the data as a string.
 	 * @return String data
 	 */
@@ -91,18 +103,6 @@ public class NamReader {
 		String getData = "";
 		if (foundElement) {
 			return data;
-		}
-		return getData;
-	}
-	
-	/**
-	 * Returns the data as an integer.
-	 * @return Int data
-	 */
-	public int getIntData() {
-		int getData = 0;
-		if (foundElement) {
-			return Integer.parseInt(data);
 		}
 		return getData;
 	}
